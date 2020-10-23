@@ -57,7 +57,7 @@ namespace SandboxCSharp
         {
             if (value == 2) return true;
             if (value < 2 || value % 2 == 0) return false;
-            if (value < 2e6)
+            if (value < 2e5)
             {
                 for (var i = 3; i * i <= value; i += 2)
                     if (value % i == 0)
