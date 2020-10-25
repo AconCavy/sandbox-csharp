@@ -29,23 +29,24 @@ namespace SandboxCSharp.Extensions
 
         private static IEnumerable<int> Permutation(int n, int r)
         {
-            var items = new int[n];
-            for (var i = 0; i < n; i++) items[i] = i;
+            var items = new int[r];
+            var used = new bool[n];
 
             IEnumerable<int> Inner(int step = 0)
             {
                 if (step >= r)
                 {
-                    for (var i = 0; i < r; i++) yield return items[i];
+                    foreach (var x in items) yield return x;
                     yield break;
                 }
 
-                foreach (var x in Inner(step + 1)) yield return x;
-                for (var i = step + 1; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
-                    (items[step], items[i]) = (items[i], items[step]);
+                    if (used[i]) continue;
+                    used[i] = true;
+                    items[step] = i;
                     foreach (var x in Inner(step + 1)) yield return x;
-                    (items[step], items[i]) = (items[i], items[step]);
+                    used[i] = false;
                 }
             }
 
