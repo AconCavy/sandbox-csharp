@@ -10,7 +10,14 @@ namespace SandboxCSharp.Extensions
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (func == null) throw new ArgumentNullException(nameof(func));
-            return CumulateImpl(source, seed, func);
+
+            IEnumerable<TAccumulate> Inner()
+            {
+                yield return seed;
+                foreach (var item in source) yield return seed = func(seed, item);
+            }
+
+            return Inner();
         }
 
         public static IEnumerable<TAccumulate> Cumulate<TSource, TAccumulate>(this IEnumerable<TSource> source,
@@ -18,7 +25,15 @@ namespace SandboxCSharp.Extensions
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (func == null) throw new ArgumentNullException(nameof(func));
-            return CumulateImpl(source, default, func);
+
+            IEnumerable<TAccumulate> Inner()
+            {
+                TAccumulate seed = default;
+                yield return seed;
+                foreach (var item in source) yield return seed = func(seed, item);
+            }
+
+            return Inner();
         }
 
         public static IEnumerable<TSource> Cumulate<TSource>(this IEnumerable<TSource> source,
@@ -26,14 +41,15 @@ namespace SandboxCSharp.Extensions
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (func == null) throw new ArgumentNullException(nameof(func));
-            return CumulateImpl(source, default, func);
-        }
 
-        private static IEnumerable<TAccumulate> CumulateImpl<TSource, TAccumulate>(this IEnumerable<TSource> source,
-            TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func)
-        {
-            yield return seed;
-            foreach (var item in source) yield return seed = func(seed, item);
+            IEnumerable<TSource> Inner()
+            {
+                TSource seed = default;
+                yield return seed;
+                foreach (var item in source) yield return seed = func(seed, item);
+            }
+
+            return Inner();
         }
     }
 }
