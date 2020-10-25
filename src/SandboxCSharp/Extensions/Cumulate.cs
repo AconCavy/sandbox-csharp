@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SandboxCSharp.Extensions
 {
-    public static partial class LinqExtensions
+    public static partial class EnumerableExtension
     {
         public static IEnumerable<TAccumulate> Cumulate<TSource, TAccumulate>(this IEnumerable<TSource> source,
             TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func)
