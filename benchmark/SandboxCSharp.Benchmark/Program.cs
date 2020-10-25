@@ -6,7 +6,8 @@ namespace SandboxCSharp.Benchmark
     {
         private static void Main()
         {
-            BenchmarkRunner.Run<PrimeBenchmark>();
+            // BenchmarkRunner.Run<PrimeBenchmark>();
+            BenchmarkRunner.Run<PermuteBenchmark>();
         }
     }
 }
