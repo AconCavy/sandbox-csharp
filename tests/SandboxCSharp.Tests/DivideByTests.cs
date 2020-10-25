@@ -16,7 +16,7 @@ namespace SandboxCSharp.Tests
             var expected = new[] {new[] {0, 1, 2}, new[] {3, 4, 5}, new[] {6, 7, 8}};
             var actual = items.DivideBy(3);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace SandboxCSharp.Tests
             var expected = new[] {new[] {0, 1, 2}, new[] {3, 4, 5}, new[] {6, 7, 8}, new[] {9}};
             var actual = items.DivideBy(3);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace SandboxCSharp.Tests
             var expected = new[] {new[] {0, 1}};
             var actual = items.DivideBy(3);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

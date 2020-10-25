@@ -19,7 +19,7 @@ namespace SandboxCSharp.Tests
 
             var actual = items.Cumulate(1L, MultipleLongInt);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace SandboxCSharp.Tests
 
             var actual = items.Cumulate<int, long>(AddLongInt);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace SandboxCSharp.Tests
 
             var actual = items.Cumulate(AddInt);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

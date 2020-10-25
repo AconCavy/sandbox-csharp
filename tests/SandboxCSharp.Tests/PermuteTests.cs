@@ -25,7 +25,7 @@ namespace SandboxCSharp.Tests
 
             var actual = items.Permute(count);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace SandboxCSharp.Tests
 
             var actual = items.Permute(2);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace SandboxCSharp.Tests
 
             var actual = items.Permute(3);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test]

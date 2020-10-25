@@ -11,7 +11,7 @@ namespace SandboxCSharp.Tests
             var expected = NaivePrime.GetFactors(value);
             var actual = Prime.GetFactors(value);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test, Parallelizable]
@@ -20,7 +20,7 @@ namespace SandboxCSharp.Tests
             var expected = NaivePrime.GetPrimes(value);
             var actual = Prime.GetPrimes(value);
 
-            Assert.That(actual, Is.EquivalentTo(expected));
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [Test, Parallelizable]
