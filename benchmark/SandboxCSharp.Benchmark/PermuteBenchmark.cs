@@ -6,6 +6,7 @@ using SandboxCSharp.Extensions;
 
 namespace SandboxCSharp.Benchmark
 {
+    [MemoryDiagnoser]
     public class PermuteBenchmark
     {
         [ParamsSource(nameof(TestCount))] public int N;
@@ -13,6 +14,6 @@ namespace SandboxCSharp.Benchmark
         private readonly Consumer _consumer = new Consumer();
 
         [Benchmark]
-        public void Permute() => Enumerable.Range(0, 10).Permute(N).Consume(_consumer);
+        public void Permute() => Enumerable.Range(0, N).Permute(N).Consume(_consumer);
     }
 }
