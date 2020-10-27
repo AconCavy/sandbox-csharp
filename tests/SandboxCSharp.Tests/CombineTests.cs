@@ -71,7 +71,7 @@ namespace SandboxCSharp.Tests
         public void CountOverThanCountTest()
         {
             var items = Enumerable.Range(0, 3);
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 using var e = items.Combine(4).GetEnumerator();
                 while (e.MoveNext()) _ = e.Current;
@@ -82,12 +82,12 @@ namespace SandboxCSharp.Tests
         public void CountLessThanOrEquals0Test()
         {
             var items = Enumerable.Range(0, 5);
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 using var e = items.Combine(0).GetEnumerator();
                 while (e.MoveNext()) _ = e.Current;
             });
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 using var e = items.Combine(-1).GetEnumerator();
                 while (e.MoveNext()) _ = e.Current;

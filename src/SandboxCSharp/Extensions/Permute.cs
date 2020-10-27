@@ -13,7 +13,7 @@ namespace SandboxCSharp.Extensions
             IEnumerable<IEnumerable<T>> Inner()
             {
                 var items = source.ToArray();
-                if (count <= 0 || items.Length < count) throw new ArgumentException(nameof(count));
+                if (count <= 0 || items.Length < count) throw new ArgumentOutOfRangeException(nameof(count));
                 var idx = 0;
                 var ret = new T[count];
                 foreach (var x in Permutation(items.Length, count))
