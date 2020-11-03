@@ -57,6 +57,16 @@ namespace SandboxCSharp.Tests
         }
 
         [Test]
+        public void IsMultipleOfTest5()
+        {
+            const string value =
+                "777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777";
+            const bool expected = true;
+            var actual = Number.IsMultipleOf(value, 7);
+            Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [Test]
         public void IsMultipleOfZeroTest()
         {
             const string str = "1234567890";
