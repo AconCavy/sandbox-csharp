@@ -98,5 +98,19 @@ namespace SandboxCSharp
 
             return ret.Slice(size - idx + 1).ToArray();
         }
+
+        public static int[] GetNumberCounts(long value)
+        {
+            value = Math.Abs(value);
+            Span<int> ret = stackalloc int[10];
+            if (value == 0) ret[0]++;
+            while (value > 0)
+            {
+                ret[(int) value % 10]++;
+                value /= 10;
+            }
+
+            return ret.ToArray();
+        }
     }
 }

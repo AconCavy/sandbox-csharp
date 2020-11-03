@@ -49,9 +49,10 @@ namespace SandboxCSharp.Tests
         [Test]
         public void ToDigitsTest1()
         {
-            for (var i = 0; i < 1 << 16; i++)
+            const int limit = 1 << 16;
+            for (var i = -limit; i < limit; i++)
             {
-                var expected = i.ToString().Select(x => x - '0');
+                var expected = Math.Abs(i).ToString().Select(x => x - '0');
                 var actual = Number.ToDigits(i);
                 Assert.That(actual, Is.EqualTo(expected));
             }
@@ -65,6 +66,20 @@ namespace SandboxCSharp.Tests
                 var n = 1L << i;
                 var expected = n.ToString().Select(x => x - '0');
                 var actual = Number.ToDigits(n);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
+        }
+
+        [Test]
+        public void GetNumberCountsTest()
+        {
+            const int limit = 1 << 16;
+            for (var i = -limit; i <= limit; i++)
+            {
+                var str = Math.Abs(i).ToString();
+                var expected = new int[10];
+                foreach (var c in str) expected[c - '0']++;
+                var actual = Number.GetNumberCounts(i);
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }
