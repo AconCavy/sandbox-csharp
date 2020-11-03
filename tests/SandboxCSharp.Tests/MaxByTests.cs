@@ -13,7 +13,15 @@ namespace SandboxCSharp.Tests
         {
             const int count = 10;
             var items = Enumerable.Range(1, count).Select(x => new SampleClass(x, count)).ToArray();
-            var expected = items[^1];
+            items = items.Concat(items.Reverse()).ToArray();
+            SampleClass expected = null;
+            var max = int.MinValue;
+            foreach (var x in items)
+            {
+                if (max >= x.A) continue;
+                max = x.A;
+                expected = x;
+            }
 
             var actual = items.MaxBy(x => x.A);
 
@@ -25,7 +33,15 @@ namespace SandboxCSharp.Tests
         {
             const int count = 10;
             var items = Enumerable.Range(1, count).Select(x => new SampleStruct(x, count)).ToArray();
-            var expected = items[^1];
+            items = items.Concat(items.Reverse()).ToArray();
+            SampleStruct expected = default;
+            var max = int.MinValue;
+            foreach (var x in items)
+            {
+                if (max >= x.A) continue;
+                max = x.A;
+                expected = x;
+            }
 
             var actual = items.MaxBy(x => x.A);
 

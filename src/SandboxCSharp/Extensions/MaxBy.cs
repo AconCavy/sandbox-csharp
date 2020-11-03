@@ -21,8 +21,8 @@ namespace SandboxCSharp.Extensions
                 {
                     var current = e.Current;
                     var value = selector(current);
-                    if (updateEquals && value.CompareTo(max) < 0) continue;
-                    if (!updateEquals && value.CompareTo(max) <= 0) continue;
+                    if (value.CompareTo(max) < 0) continue;
+                    if (!updateEquals && value.CompareTo(max) == 0) continue;
                     ret = current;
                     max = value;
                 }
