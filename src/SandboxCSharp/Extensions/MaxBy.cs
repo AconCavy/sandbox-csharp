@@ -11,26 +11,21 @@ namespace SandboxCSharp.Extensions
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (selector == null) throw new ArgumentNullException(nameof(selector));
 
-            TSource Inner()
+            using var e = source.GetEnumerator();
+            if (!e.MoveNext()) throw new InvalidOperationException();
+            var ret = e.Current;
+            var max = selector(ret);
+            while (e.MoveNext())
             {
-                using var e = source.GetEnumerator();
-                if (!e.MoveNext()) throw new InvalidOperationException();
-                var ret = e.Current;
-                var max = selector(ret);
-                while (e.MoveNext())
-                {
-                    var current = e.Current;
-                    var value = selector(current);
-                    if (value.CompareTo(max) < 0) continue;
-                    if (!updateEquals && value.CompareTo(max) == 0) continue;
-                    ret = current;
-                    max = value;
-                }
-
-                return ret;
+                var current = e.Current;
+                var value = selector(current);
+                if (value.CompareTo(max) < 0) continue;
+                if (!updateEquals && value.CompareTo(max) == 0) continue;
+                ret = current;
+                max = value;
             }
 
-            return Inner();
+            return ret;
         }
     }
 }
