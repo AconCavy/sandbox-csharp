@@ -7,9 +7,47 @@ namespace SandboxCSharp.Tests
     public class NumberTests
     {
         [Test]
-        public void IsMultipleOfTest([Range(1, 11)] int p)
+        public void IsMultipleOfTest1([Range(1, 11)] int p)
         {
             for (var i = 0; i < 1 << 16; i++)
+            {
+                var str = i.ToString();
+                var expected = i % p == 0;
+                var actual = Number.IsMultipleOf(str, (uint) p);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
+        }
+
+        [Test]
+        public void IsMultipleOfTest2([Values(13, 17, 19, 23, 29)] int p)
+        {
+            for (var i = 0; i < 1 << 16; i++)
+            {
+                var str = i.ToString();
+                var expected = i % p == 0;
+                var actual = Number.IsMultipleOf(str, (uint) p);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
+        }
+
+        [Test]
+        public void IsMultipleOfTest3([Range(1, 11)] int p)
+        {
+            const long max = long.MaxValue;
+            for (var i = max; i >= max - 100000; i--)
+            {
+                var str = i.ToString();
+                var expected = i % p == 0;
+                var actual = Number.IsMultipleOf(str, (uint) p);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
+        }
+
+        [Test]
+        public void IsMultipleOfTest4([Values(13, 17, 19, 23, 29)] int p)
+        {
+            const long max = long.MaxValue;
+            for (var i = max; i >= max - 100000; i--)
             {
                 var str = i.ToString();
                 var expected = i % p == 0;

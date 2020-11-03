@@ -7,6 +7,7 @@ namespace SandboxCSharp
         public static bool IsMultipleOf(ReadOnlySpan<char> value, uint p, bool checkValues = false)
         {
             if (value.Length == 0) throw new ArgumentException(nameof(value));
+            if (p == 0) throw new ArgumentException(nameof(p));
             if (checkValues)
             {
                 foreach (var c in value)
@@ -14,62 +15,54 @@ namespace SandboxCSharp
                         throw new ArgumentException(nameof(value));
             }
 #if DEBUG
-            const int parsableDigit = 3;
+            const int parsableDigit = 4;
 #else
             const int parsableDigit = 18;
 #endif
             const int stackSize = 1 << 12;
+            if (value.Length <= parsableDigit) return ulong.Parse(value) % p == 0;
+            var x = 0L;
             switch (p)
             {
-                case 0: throw new ArgumentException(nameof(p));
                 case 1: return true;
                 case 2:
                 case 5:
                 case 10: return (value[^1] - '0') % p == 0;
-            }
-
-            if (value.Length <= parsableDigit) return ulong.Parse(value) % p == 0;
-            var v1 = value.Length <= stackSize ? stackalloc sbyte[value.Length] : new sbyte[value.Length];
-            for (var i = 0; i < value.Length; i++) v1[i] = (sbyte) (value[i] - '0');
-            var x = 0L;
-            switch (p)
-            {
                 case 3:
                 case 9:
-                    foreach (var v in v1) x += v;
+                    foreach (var v in value) x += v - '0';
                     return x % p == 0;
                 case 6:
-                    foreach (var v in v1) x += v;
-                    return v1[^1] % 2 == 0 && x % 3 == 0;
+                    foreach (var v in value) x += v - '0';
+                    return (value[^1] - '0') % 2 == 0 && x % 3 == 0;
                 case 4:
                 case 8:
-                    x = v1[^2] * 10 + v1[^1];
-                    if (p == 8) x += v1[^3] * 100;
+                    x = (value[^2] - '0') * 10 + value[^1] - '0';
+                    if (p == 8) x += (value[^3] - '0') * 100;
                     return x % p == 0;
             }
 
+            var v1 = value.Length <= stackSize ? stackalloc sbyte[value.Length] : new sbyte[value.Length];
+            for (var i = 0; i < value.Length; i++) v1[i] = (sbyte) (value[i] - '0');
             var n = 0;
             while ((10 * n + 1) % p != 0) n++;
-            var idx = v1.Length - 1;
-            while (idx >= parsableDigit)
+            int idx;
+            for (idx = v1.Length - 1; idx >= parsableDigit; idx--)
             {
-                var size = 0;
+                int size;
                 var y = v1[idx] * n;
-                while (y > 0)
+                for (size = 0; y > 0; size++)
                 {
                     v1[idx - size - 1] -= (sbyte) (y % 10);
                     y /= 10;
-                    size++;
                 }
 
-                for (var i = 0; i <= size; i++)
+                for (var i = 0; i <= size + 1; i++)
                 {
                     if (v1[idx - i] >= 0) continue;
                     v1[idx - i - 1]--;
                     v1[idx - i] += 10;
                 }
-
-                idx--;
             }
 
             x = 0;
