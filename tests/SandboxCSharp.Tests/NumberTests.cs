@@ -7,7 +7,7 @@ namespace SandboxCSharp.Tests
     public class NumberTests
     {
         [Test]
-        public void IsMultipleOfTest1([Range(1, 11)] int p)
+        public void IsMultipleOfTest1([Range(1, 30)] int p)
         {
             for (var i = 0; i < 1 << 16; i++)
             {
@@ -19,19 +19,7 @@ namespace SandboxCSharp.Tests
         }
 
         [Test]
-        public void IsMultipleOfTest2([Values(13, 17, 19, 23, 29)] int p)
-        {
-            for (var i = 0; i < 1 << 16; i++)
-            {
-                var str = i.ToString();
-                var expected = i % p == 0;
-                var actual = Number.IsMultipleOf(str, (uint) p);
-                Assert.That(actual, Is.EqualTo(expected));
-            }
-        }
-
-        [Test]
-        public void IsMultipleOfTest3([Range(1, 11)] int p)
+        public void IsMultipleOfTest2([Range(1, 30)] int p)
         {
             const long max = long.MaxValue;
             for (var i = max; i >= max - 100000; i--)
@@ -44,26 +32,53 @@ namespace SandboxCSharp.Tests
         }
 
         [Test]
-        public void IsMultipleOfTest4([Values(13, 17, 19, 23, 29)] int p)
-        {
-            const long max = long.MaxValue;
-            for (var i = max; i >= max - 100000; i--)
-            {
-                var str = i.ToString();
-                var expected = i % p == 0;
-                var actual = Number.IsMultipleOf(str, (uint) p);
-                Assert.That(actual, Is.EqualTo(expected));
-            }
-        }
-
-        [Test]
-        public void IsMultipleOfTest5()
+        public void IsMultipleOfTest3()
         {
             const string value =
                 "777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777";
             const bool expected = true;
             var actual = Number.IsMultipleOf(value, 7);
             Assert.That(actual, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void IsMultipleOf2ETest([Values(2, 4, 8, 16, 32, 64, 128, 256, 512)]
+            int p)
+        {
+            const long max = long.MaxValue;
+            for (var i = max; i >= max - 100000; i--)
+            {
+                var str = i.ToString();
+                var expected = i % p == 0;
+                var actual = Number.IsMultipleOf(str, (uint) p);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
+        }
+
+        [Test]
+        public void IsMultipleOf3ETest([Values(3, 9, 27, 81, 243, 729)] int p)
+        {
+            const long max = long.MaxValue;
+            for (var i = max; i >= max - 100000; i--)
+            {
+                var str = i.ToString();
+                var expected = i % p == 0;
+                var actual = Number.IsMultipleOf(str, (uint) p);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
+        }
+
+        [Test]
+        public void IsMultipleOf5ETest([Values(5, 25, 125, 625)] int p)
+        {
+            const long max = long.MaxValue;
+            for (var i = max; i >= max - 100000; i--)
+            {
+                var str = i.ToString();
+                var expected = i % p == 0;
+                var actual = Number.IsMultipleOf(str, (uint) p);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
         }
 
         [Test]

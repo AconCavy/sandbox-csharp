@@ -4,60 +4,93 @@ namespace SandboxCSharp
 {
     public static class Number
     {
-        public static bool IsMultipleOf(ReadOnlySpan<char> value, uint p, bool checkValues = false)
+        public static bool IsMultipleOf(ReadOnlySpan<char> value, uint divisor, bool checkValues = false)
         {
             if (value.Length == 0) throw new ArgumentException(nameof(value));
-            if (p == 0) throw new ArgumentException(nameof(p));
+            if (divisor == 0) throw new ArgumentException(nameof(divisor));
             if (checkValues)
             {
                 foreach (var c in value)
                     if (c < '0' || '9' < c)
                         throw new ArgumentException(nameof(value));
             }
+
+            if (divisor == 1) return true;
+            foreach (var (p, c) in Prime.GetFactors(divisor))
+            {
+                if (!IsMultipleOf_(value, (uint) Math.Pow(p, c))) return false;
+            }
+
+            return true;
+        }
+
+        private static bool IsMultipleOf_(ReadOnlySpan<char> value, uint divisor)
+        {
 #if DEBUG
             const int parsableDigit = 4;
 #else
             const int parsableDigit = 18;
 #endif
             const int stackSize = 1 << 12;
-            if (value.Length <= parsableDigit) return ulong.Parse(value) % p == 0;
+            if (value.Length <= parsableDigit) return ulong.Parse(value) % divisor == 0;
             var x = 0L;
-            switch (p)
+            if (divisor % 2 == 0)
             {
-                case 1: return true;
-                case 2:
-                case 5:
-                case 10: return (value[^1] - '0') % p == 0;
-                case 3:
-                case 9:
-                    foreach (var v in value) x += v - '0';
-                    return x % p == 0;
-                case 6:
-                    foreach (var v in value) x += v - '0';
-                    return (value[^1] - '0') % 2 == 0 && x % 3 == 0;
-                case 4:
-                case 8:
-                    x = (value[^2] - '0') * 10 + value[^1] - '0';
-                    if (p == 8) x += (value[^3] - '0') * 100;
-                    return x % p == 0;
+                for (var i = 1; i < 32; i++)
+                {
+                    if (divisor != 1UL << i) continue;
+                    for (var j = i; j >= 1; j--)
+                    {
+                        x *= 10;
+                        x += value[^j] - '0';
+                    }
+
+                    return x % divisor == 0;
+                }
+            }
+
+            if (divisor % 5 == 0)
+            {
+                var d = divisor;
+                var count = 1;
+                while (d > 1)
+                {
+                    d /= 5;
+                    count++;
+                }
+
+                for (var i = count; i >= 1; i--)
+                {
+                    x *= 10;
+                    x += value[^i] - '0';
+                }
+
+                return x % divisor == 0;
             }
 
             var v1 = value.Length <= stackSize ? stackalloc sbyte[value.Length] : new sbyte[value.Length];
             for (var i = 0; i < value.Length; i++) v1[i] = (sbyte) (value[i] - '0');
+            if (divisor % 3 == 0)
+            {
+                foreach (var v in v1) x += v;
+                if (divisor <= 9) return x % divisor == 0;
+                if (x % 9 != 0) return false;
+            }
+
             var n = 0;
-            while ((10 * n + 1) % p != 0) n++;
+            while ((10 * n + 1) % divisor != 0) n++;
             int idx;
-            for (idx = v1.Length - 1; idx >= parsableDigit; idx--)
+            for (idx = v1.Length - 1; idx > parsableDigit; idx--)
             {
                 int size;
                 var y = v1[idx] * n;
-                for (size = 0; y > 0; size++)
+                for (size = 1; y > 0; size++)
                 {
-                    v1[idx - size - 1] -= (sbyte) (y % 10);
+                    v1[idx - size] -= (sbyte) (y % 10);
                     y /= 10;
                 }
 
-                for (var i = 0; i <= size + 1; i++)
+                for (var i = 0; i <= size; i++)
                 {
                     if (v1[idx - i] >= 0) continue;
                     v1[idx - i - 1]--;
@@ -66,13 +99,8 @@ namespace SandboxCSharp
             }
 
             x = 0;
-            foreach (var v in v1[..(idx + 1)])
-            {
-                x *= 10;
-                x += v;
-            }
-
-            return x % p == 0;
+            foreach (var v in v1[..(idx + 1)]) x = x * 10 + v;
+            return x % divisor == 0;
         }
 
         public static int[] ToDigits(long value)
