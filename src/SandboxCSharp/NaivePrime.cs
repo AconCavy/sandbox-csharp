@@ -4,9 +4,9 @@ namespace SandboxCSharp
 {
     public static class NaivePrime
     {
-        public static IDictionary<int, int> GetFactors(int value)
+        public static IDictionary<long, int> GetFactors(long value)
         {
-            var factors = new Dictionary<int, int>();
+            var factors = new Dictionary<long, int>();
             if (value < 2) return factors;
             for (var i = 2; i * i <= value; i++)
             {
