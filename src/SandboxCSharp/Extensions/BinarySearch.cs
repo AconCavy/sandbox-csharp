@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SandboxCSharp.Extensions
 {
-    public static class IndexedListExtension
+    public static class ReadonlyListExtension
     {
         public static int BinarySearch<T>(this IReadOnlyList<T> source, T key, Comparison<T> comparison = null)
         {
