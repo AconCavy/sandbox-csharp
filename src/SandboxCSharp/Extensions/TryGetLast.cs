@@ -8,12 +8,11 @@ namespace SandboxCSharp.Extensions
         public static bool TryGetLast<TSource>(this IEnumerable<TSource> source, out TSource result)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
-            using var e = source.GetEnumerator();
             var exist = false;
             result = default;
-            while (e.MoveNext())
+            foreach (var current in source)
             {
-                result = e.Current;
+                result = current;
                 exist = true;
             }
 
@@ -25,12 +24,10 @@ namespace SandboxCSharp.Extensions
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-            using var e = source.GetEnumerator();
             var exist = false;
             result = default;
-            while (e.MoveNext())
+            foreach (var current in source)
             {
-                var current = e.Current;
                 if (!predicate(current)) continue;
                 result = current;
                 exist = true;

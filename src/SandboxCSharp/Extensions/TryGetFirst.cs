@@ -19,12 +19,10 @@ namespace SandboxCSharp.Extensions
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
-            using var e = source.GetEnumerator();
-            while (e.MoveNext())
+            foreach (var current in source)
             {
-                var current = e.Current;
                 if (!predicate(current)) continue;
-                result = e.Current;
+                result = current;
                 return true;
             }
 
