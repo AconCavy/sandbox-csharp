@@ -34,7 +34,7 @@ namespace SandboxCSharp
             var answer = new bool[count][].Select(_ => new bool[count]).ToArray();
             constraints ??= Array.Empty<(int, int)>();
             var ok = 0;
-            var isCompleted = false;
+            var isIdentified = false;
             foreach (var (r, c) in constraints)
             {
                 answer[r][c] = true;
@@ -43,10 +43,10 @@ namespace SandboxCSharp
 
             void Inner()
             {
-                if (isCompleted) return;
+                if (isIdentified) return;
                 if (ok == count)
                 {
-                    isCompleted = true;
+                    isIdentified = true;
                     return;
                 }
 
@@ -55,26 +55,26 @@ namespace SandboxCSharp
                     for (var c = 0; c < count; c++)
                     {
                         if (answer[r][c]) continue;
-                        var exist = false;
-                        for (var i = 0; i < count; i++)
+                        var isDuplicated = false;
+                        for (var i = 0; i < count && !isDuplicated; i++)
                         {
-                            exist |= answer[i][c];
-                            exist |= answer[r][i];
+                            isDuplicated |= answer[i][c];
+                            isDuplicated |= answer[r][i];
                         }
 
-                        for (var i = 0; i < count; i++)
+                        for (var d = 1; d < count && !isDuplicated; d++)
                         {
-                            exist |= r + i < count && c + i < count && answer[r + i][c + i];
-                            exist |= r - i >= 0 && c - i >= 0 && answer[r - i][c - i];
-                            exist |= r + i < count && c - i >= 0 && answer[r + i][c - i];
-                            exist |= r - i >= 0 && c + i < count && answer[r - i][c + i];
+                            isDuplicated |= r + d < count && c + d < count && answer[r + d][c + d];
+                            isDuplicated |= r - d >= 0 && c - d >= 0 && answer[r - d][c - d];
+                            isDuplicated |= r + d < count && c - d >= 0 && answer[r + d][c - d];
+                            isDuplicated |= r - d >= 0 && c + d < count && answer[r - d][c + d];
                         }
 
-                        if (exist) continue;
+                        if (isDuplicated) continue;
                         answer[r][c] = true;
                         ok++;
                         Inner();
-                        if (isCompleted) return;
+                        if (isIdentified) return;
                         answer[r][c] = false;
                         ok--;
                     }
