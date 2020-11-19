@@ -29,7 +29,8 @@ namespace SandboxCSharp
             }
         }
 
-        public static bool[][] Identify(int count, IEnumerable<(int row, int column)> constraints = null)
+        public static (bool isIdentified, bool[][] answer) Identify(int count,
+            IEnumerable<(int row, int column)> constraints = null)
         {
             var answer = new bool[count][].Select(_ => new bool[count]).ToArray();
             constraints ??= Array.Empty<(int, int)>();
@@ -82,7 +83,7 @@ namespace SandboxCSharp
             }
 
             Inner();
-            return answer;
+            return (isIdentified, answer);
         }
     }
 }
