@@ -4,6 +4,11 @@ namespace SandboxCSharp
 {
     public static class Number
     {
+#if DEBUG
+        private const int ParsableDigit = 4;
+#else
+        private const int ParsableDigit = 18;
+#endif
         public static bool IsMultipleOf(ReadOnlySpan<char> value, uint divisor, bool checkValues = false)
         {
             if (value.Length == 0) throw new ArgumentException(nameof(value));
@@ -26,13 +31,8 @@ namespace SandboxCSharp
 
         private static bool IsMultipleOf_(ReadOnlySpan<char> value, uint divisor)
         {
-#if DEBUG
-            const int parsableDigit = 4;
-#else
-            const int parsableDigit = 18;
-#endif
             const int stackSize = 1 << 12;
-            if (value.Length <= parsableDigit) return ulong.Parse(value) % divisor == 0;
+            if (value.Length <= ParsableDigit) return ulong.Parse(value) % divisor == 0;
             var x = 0L;
             if (divisor % 2 == 0)
             {
@@ -80,7 +80,7 @@ namespace SandboxCSharp
             var n = 0;
             while ((10 * n + 1) % divisor != 0) n++;
             int idx;
-            for (idx = v1.Length - 1; idx > parsableDigit; idx--)
+            for (idx = v1.Length - 1; idx > ParsableDigit; idx--)
             {
                 int size;
                 var y = v1[idx] * n;
@@ -132,6 +132,16 @@ namespace SandboxCSharp
             }
 
             return ret.ToArray();
+        }
+
+        public static int GetModulo(ReadOnlySpan<char> value, uint modulo)
+        {
+            if (value.Length <= ParsableDigit) return (int) (ulong.Parse(value) % modulo);
+            const int limit = 1024;
+            if (modulo == 1) return 0;
+            var ret = 0U;
+            foreach (var d in value) ret = (ret * 10 + (uint) (d - '0')) % modulo;
+            return (int) ret;
         }
     }
 }

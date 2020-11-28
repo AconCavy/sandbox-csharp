@@ -146,5 +146,17 @@ namespace SandboxCSharp.Tests
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }
+
+        [Test]
+        public void GetModuloTest([Range(1, 30)] int p)
+        {
+            for (var i = 0; i < 1 << 20; i++)
+            {
+                var str = i.ToString();
+                var expected = i % p;
+                var actual = Number.GetModulo(str, (uint) p);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
+        }
     }
 }
