@@ -16,14 +16,14 @@ namespace SandboxCSharp.Benchmark
         [Benchmark]
         public void GetFactorsNaive()
         {
-            for (var i = 0; i <= N; i++) NaivePrime.GetFactors(i);
+            for (var i = 0; i <= N; i++) Naives.Prime.GetFactors(i);
         }
 
         [Benchmark]
         public void GetPrimes() => Prime.GetPrimes(N);
 
         [Benchmark]
-        public void GetPrimesNaive() => NaivePrime.GetPrimes(N);
+        public void GetPrimesNaive() => Naives.Prime.GetPrimes(N);
 
         [Benchmark]
         public void IsPrime()
@@ -34,7 +34,7 @@ namespace SandboxCSharp.Benchmark
         [Benchmark]
         public void IsPrimeNaive()
         {
-            for (var i = 0; i <= N; i++) NaivePrime.IsPrime(i);
+            for (var i = 0; i <= N; i++) Naives.Prime.IsPrime(i);
         }
     }
 }

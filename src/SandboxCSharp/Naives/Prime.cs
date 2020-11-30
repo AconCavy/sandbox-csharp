@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace SandboxCSharp
+namespace SandboxCSharp.Naives
 {
-    public static class NaivePrime
+    public static class Prime
     {
         public static IDictionary<long, int> GetFactors(long value)
         {
