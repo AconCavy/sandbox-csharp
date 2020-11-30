@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace SandboxCSharp
@@ -9,7 +10,17 @@ namespace SandboxCSharp
         {
             var factors = new Dictionary<long, int>();
             if (value < 2) return factors;
-            for (var i = 2; i * i <= value; i++)
+            if (value % 2 == 0)
+            {
+                factors[2] = 0;
+                while (value % 2 == 0)
+                {
+                    value /= 2;
+                    factors[2]++;
+                }
+            }
+
+            for (var i = 3L; i * i <= value; i += 2)
             {
                 if (value % i != 0) continue;
                 factors[i] = 0;
@@ -26,7 +37,7 @@ namespace SandboxCSharp
 
         public static int[] GetPrimes(int value)
         {
-            if (value < 2) return new int[0];
+            if (value < 2) return Array.Empty<int>();
             if (value == 2) return new[] {2};
             const int bit = 32;
             const int limit = 1024;
@@ -59,7 +70,7 @@ namespace SandboxCSharp
             if (value < 2 || value % 2 == 0) return false;
             if (value < 2e5)
             {
-                for (var i = 3; i * i <= value; i += 2)
+                for (var i = 3L; i * i <= value; i += 2)
                     if (value % i == 0)
                         return false;
                 return true;
