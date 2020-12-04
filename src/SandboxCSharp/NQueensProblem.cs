@@ -11,15 +11,7 @@ namespace SandboxCSharp
         {
             foreach (var permutation in Enumerable.Range(0, size).Permute(size))
             {
-                var answer = new bool[size][].Select(_ => new bool[size]).ToArray();
-                var isSatisfiable = true;
-                foreach (var (r, c) in permutation.Select((x, i) => (i, x)))
-                {
-                    answer[r][c] = true;
-                    isSatisfiable &= CanPlace(answer, r, c);
-                    if (!isSatisfiable) break;
-                }
-
+                var (isSatisfiable, answer) = Identify(size, permutation.Select((x, i) => (i, x)));
                 if (isSatisfiable) yield return answer;
             }
         }
