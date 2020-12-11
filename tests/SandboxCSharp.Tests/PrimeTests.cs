@@ -5,7 +5,8 @@ namespace SandboxCSharp.Tests
     [Parallelizable]
     public class PrimeTests
     {
-        [Test, Parallelizable]
+        [Test]
+        [Parallelizable]
         public void GetFactorsTest([Range(-1, 1000)] int value)
         {
             var expected = Naives.Prime.GetFactors(value);
@@ -14,7 +15,8 @@ namespace SandboxCSharp.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test, Parallelizable]
+        [Test]
+        [Parallelizable]
         public void GetPrimesTest([Range(-1, 1000)] int value)
         {
             var expected = Naives.Prime.GetPrimes(value);
@@ -23,7 +25,8 @@ namespace SandboxCSharp.Tests
             Assert.That(actual, Is.EqualTo(expected));
         }
 
-        [Test, Parallelizable]
+        [Test]
+        [Parallelizable]
         public void IsPrimeTest([Values(0, 100000, 100000000)] int value, [Range(-500, 500)] int range)
         {
             var expected = Naives.Prime.IsPrime(value + range);

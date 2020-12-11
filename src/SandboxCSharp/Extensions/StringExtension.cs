@@ -15,9 +15,14 @@ namespace SandboxCSharp.Extensions
             return ret.Slice(start, length).ToArray();
         }
 
-        public static int[] GetAlphabetCounts(this string str, bool upper = false) =>
-            GetCharacterCounts(str, upper ? 'A' : 'a', 26);
+        public static int[] GetAlphabetCounts(this string str, bool upper = false)
+        {
+            return GetCharacterCounts(str, upper ? 'A' : 'a', 26);
+        }
 
-        public static int[] GetNumberCounts(this string str) => GetCharacterCounts(str, '0', 10);
+        public static int[] GetNumberCounts(this string str)
+        {
+            return GetCharacterCounts(str, '0', 10);
+        }
     }
 }

@@ -20,10 +20,16 @@ namespace SandboxCSharp.Benchmark
         }
 
         [Benchmark]
-        public void GetPrimes() => Prime.GetPrimes(N);
+        public void GetPrimes()
+        {
+            Prime.GetPrimes(N);
+        }
 
         [Benchmark]
-        public void GetPrimesNaive() => Naives.Prime.GetPrimes(N);
+        public void GetPrimesNaive()
+        {
+            Naives.Prime.GetPrimes(N);
+        }
 
         [Benchmark]
         public void IsPrime()

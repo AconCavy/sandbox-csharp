@@ -109,9 +109,8 @@ namespace SandboxCSharp.Tests
             if (source.Count == 0) return -1;
             comparison ??= Comparer<T>.Default.Compare;
             for (var i = 0; i < source.Count; i++)
-            {
-                if (comparison(source[i], key) == 0) return i;
-            }
+                if (comparison(source[i], key) == 0)
+                    return i;
 
             return -1;
         }
@@ -122,9 +121,8 @@ namespace SandboxCSharp.Tests
             comparison ??= Comparer<T>.Default.Compare;
             int ret;
             for (ret = 0; ret < source.Count; ret++)
-            {
-                if (comparison(source[ret], key) >= 0) break;
-            }
+                if (comparison(source[ret], key) >= 0)
+                    break;
 
             return ret < source.Count ? ret : ret - 1;
         }
@@ -135,9 +133,8 @@ namespace SandboxCSharp.Tests
             comparison ??= Comparer<T>.Default.Compare;
             int ret;
             for (ret = 0; ret < source.Count; ret++)
-            {
-                if (comparison(source[ret], key) > 0) break;
-            }
+                if (comparison(source[ret], key) > 0)
+                    break;
 
             return ret < source.Count ? ret : ret - 1;
         }

@@ -14,17 +14,14 @@ namespace SandboxCSharp
             if (value.Length == 0) throw new ArgumentException(nameof(value));
             if (divisor == 0) throw new ArgumentException(nameof(divisor));
             if (checkValues)
-            {
                 foreach (var c in value)
                     if (c < '0' || '9' < c)
                         throw new ArgumentException(nameof(value));
-            }
 
             if (divisor == 1) return true;
             foreach (var (p, c) in Prime.GetFactors(divisor))
-            {
-                if (!IsMultipleOf_(value, (uint) Math.Pow(p, c))) return false;
-            }
+                if (!IsMultipleOf_(value, (uint) Math.Pow(p, c)))
+                    return false;
 
             return true;
         }
@@ -35,7 +32,6 @@ namespace SandboxCSharp
             if (value.Length <= ParsableDigit) return ulong.Parse(value) % divisor == 0;
             var x = 0L;
             if (divisor % 2 == 0)
-            {
                 for (var i = 1; i < 32; i++)
                 {
                     if (divisor != 1UL << i) continue;
@@ -47,7 +43,6 @@ namespace SandboxCSharp
 
                     return x % divisor == 0;
                 }
-            }
 
             if (divisor % 5 == 0)
             {
@@ -137,7 +132,6 @@ namespace SandboxCSharp
         public static int GetModulo(ReadOnlySpan<char> value, uint modulo)
         {
             if (value.Length <= ParsableDigit) return (int) (ulong.Parse(value) % modulo);
-            const int limit = 1024;
             if (modulo == 1) return 0;
             var ret = 0U;
             foreach (var d in value) ret = (ret * 10 + (uint) (d - '0')) % modulo;

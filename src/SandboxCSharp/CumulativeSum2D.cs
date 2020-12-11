@@ -2,16 +2,6 @@
 {
     public class CumulativeSum2D
     {
-        public long this[int y, int x]
-        {
-            get => _graph[y, x];
-            set
-            {
-                _isUpdated = false;
-                _graph[y, x] = value;
-            }
-        }
-
         private readonly long[,] _graph;
         private readonly long[,] _sum;
         private bool _isUpdated;
@@ -22,7 +12,20 @@
             _sum = new long[y + 1, x + 1];
         }
 
-        public void Add(int x, int y, long value) => _graph[y, x] += value;
+        public long this[int y, int x]
+        {
+            get => _graph[y, x];
+            set
+            {
+                _isUpdated = false;
+                _graph[y, x] = value;
+            }
+        }
+
+        public void Add(int x, int y, long value)
+        {
+            _graph[y, x] += value;
+        }
 
         public long GetArea(int x1, int y1, int x2, int y2)
         {

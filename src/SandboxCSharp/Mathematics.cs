@@ -56,7 +56,10 @@ namespace SandboxCSharp
             }
         }
 
-        public static long LeastCommonMultiple(long a, long b) => a / GreatestCommonDivisor(a, b) * b;
+        public static long LeastCommonMultiple(long a, long b)
+        {
+            return a / GreatestCommonDivisor(a, b) * b;
+        }
 
         public static long Xor0To(long x)
         {

@@ -33,8 +33,10 @@ namespace SandboxCSharp.Naives
             for (var i = 3; i * i <= value;)
             {
                 for (var j = i * 2; j <= value; j += i) sieve[j] = false;
-                do i++;
-                while (i * i <= value && !sieve[i]);
+                do
+                {
+                    i++;
+                } while (i * i <= value && !sieve[i]);
             }
 
             var primes = new int[value + 1];

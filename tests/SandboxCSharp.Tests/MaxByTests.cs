@@ -126,18 +126,26 @@ namespace SandboxCSharp.Tests
             Assert.Throws<InvalidOperationException>(() => structs.MaxBy(x => x.A));
         }
 
-        private struct SampleStruct
+        private readonly struct SampleStruct
         {
-            public int A;
-            public int B;
-            public SampleStruct(int a, int b) => (A, B) = (a, b);
+            public readonly int A;
+            public readonly int B;
+
+            public SampleStruct(int a, int b)
+            {
+                (A, B) = (a, b);
+            }
         }
 
         private class SampleClass
         {
-            public int A { get; set; }
-            public int B { get; set; }
-            public SampleClass(int a, int b) => (A, B) = (a, b);
+            public SampleClass(int a, int b)
+            {
+                (A, B) = (a, b);
+            }
+
+            public int A { get; }
+            public int B { get; }
         }
     }
 }
