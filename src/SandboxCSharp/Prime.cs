@@ -10,26 +10,20 @@ namespace SandboxCSharp
         {
             var factors = new Dictionary<long, int>();
             if (value < 2) return factors;
-            if (value % 2 == 0)
+
+            void CountUp(long n)
             {
-                factors[2] = 0;
-                while (value % 2 == 0)
+                if (value % n != 0) return;
+                factors[n] = 0;
+                while (value % n == 0)
                 {
-                    value /= 2;
-                    factors[2]++;
+                    value /= n;
+                    factors[n]++;
                 }
             }
 
-            for (var i = 3L; i * i <= value; i += 2)
-            {
-                if (value % i != 0) continue;
-                factors[i] = 0;
-                while (value % i == 0)
-                {
-                    value /= i;
-                    factors[i]++;
-                }
-            }
+            CountUp(2);
+            for (var i = 3L; i * i <= value; i += 2) CountUp(i);
 
             if (value > 1) factors[value] = 1;
             return factors;
