@@ -61,6 +61,20 @@ namespace SandboxCSharp
             return a / GreatestCommonDivisor(a, b) * b;
         }
 
+        public static long ExtendedGreatestCommonDivisor(long a, long b, out long x, out long y)
+        {
+            if (b == 0)
+            {
+                x = 1;
+                y = 0;
+                return a;
+            }
+
+            var d = ExtendedGreatestCommonDivisor(b, a % b, out y, out x);
+            y -= a / b * x;
+            return d;
+        }
+
         public static long Xor0To(long x)
         {
             if (x < 0) return 0;
@@ -73,13 +87,34 @@ namespace SandboxCSharp
             };
         }
 
-        public static bool Intersect(long ax, long ay, long bx, long by, long cx, long cy, long dx, long dy)
+        public static IEnumerable<long> ConvertBaseNumber(long x, long n)
         {
-            var ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
-            var tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);
-            var tc = (ax - bx) * (cy - ay) + (ay - by) * (ax - cx);
-            var td = (ax - bx) * (dy - ay) + (ay - by) * (ax - dx);
-            return ta * tb < 0 && tc * td < 0;
+            var y = x;
+            var bits = new List<long>();
+            while (y != 0)
+            {
+                bits.Add(y % n);
+                y /= n;
+            }
+
+            bits.Reverse();
+            return bits;
+        }
+
+        public static bool Intersect(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long y4)
+        {
+            var t1 = (x3 - x4) * (y1 - y3) + (y3 - y4) * (x3 - x1);
+            var t2 = (x3 - x4) * (y2 - y3) + (y3 - y4) * (x3 - x2);
+            var t3 = (x1 - x2) * (y3 - y1) + (y1 - y2) * (x1 - x3);
+            var t4 = (x1 - x2) * (y4 - y1) + (y1 - y2) * (x1 - x4);
+            return t1 * t2 < 0 && t3 * t4 < 0;
+        }
+
+        public static double GetTriangleAria(double x1, double y1, double x2, double y2, double x3, double y3)
+        {
+            var (dx1, dy1) = (x2 - x1, y2 - y1);
+            var (dx2, dy2) = (x3 - x1, y3 - y1);
+            return (dx1 * dy2 - dx2 * dy1) / 2;
         }
     }
 }
