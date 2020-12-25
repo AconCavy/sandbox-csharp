@@ -43,8 +43,10 @@ namespace SandboxCSharp
             {
                 for (var j = i; j <= value; j += i * 2 + 1) sieve[j / bit] |= 1U << (j % bit);
                 sieve[i / bit] &= ~(1U << (i % bit));
-                do i++;
-                while (i * i <= value && (sieve[i / bit] >> (i % bit) & 1) == 1);
+                do
+                {
+                    i++;
+                } while (i * i <= value && ((sieve[i / bit] >> (i % bit)) & 1) == 1);
             }
 
             var count = bit * length;
@@ -53,7 +55,7 @@ namespace SandboxCSharp
             primes[0] = 2;
             var index = 1;
             for (var i = 1; index < count && i <= value; i++)
-                if ((sieve[i / bit] >> (i % bit) & 1U) == 0)
+                if (((sieve[i / bit] >> (i % bit)) & 1U) == 0)
                     primes[index++] = i * 2 + 1;
             return primes.ToArray();
         }

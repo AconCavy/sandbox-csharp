@@ -36,15 +36,13 @@ namespace SandboxCSharp
                 }
 
                 for (var r = 0; r < size; r++)
+                for (var c = 0; c < size; c++)
                 {
-                    for (var c = 0; c < size; c++)
-                    {
-                        if (answer[r][c] || !CanPlace(answer, r, c)) continue;
-                        answer[r][c] = true;
-                        Inner(placed + 1);
-                        if (isIdentified) return;
-                        answer[r][c] = false;
-                    }
+                    if (answer[r][c] || !CanPlace(answer, r, c)) continue;
+                    answer[r][c] = true;
+                    Inner(placed + 1);
+                    if (isIdentified) return;
+                    answer[r][c] = false;
                 }
             }
 
@@ -57,14 +55,12 @@ namespace SandboxCSharp
             var size = grid.Length;
             var d4 = new[] {(1, 1), (1, -1), (-1, 1), (-1, -1)};
             for (var i = 1; i < size; i++)
-            {
                 foreach (var (dr, dc) in d4)
                 {
                     var (nr, nc) = (r + dr * i, c + dc * i);
                     if (nr < 0 || size <= nr || nc < 0 || size <= nc) continue;
                     if (grid[nr][nc]) return false;
                 }
-            }
 
             for (var i = 0; i < size; i++)
             {
