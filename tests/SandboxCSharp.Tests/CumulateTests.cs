@@ -66,19 +66,10 @@ namespace SandboxCSharp.Tests
             Assert.Throws<ArgumentNullException>(() => items.Cumulate<int, long>(null));
         }
 
-        private static int AddInt(int x, int y)
-        {
-            return x + y;
-        }
+        private static int AddInt(int x, int y) => x + y;
 
-        private static long AddLongInt(long x, int y)
-        {
-            return x + y;
-        }
+        private static long AddLongInt(long x, int y) => x + y;
 
-        private static long MultipleLongInt(long x, int y)
-        {
-            return x * y;
-        }
+        private static long MultipleLongInt(long x, int y) => x * y;
     }
 }

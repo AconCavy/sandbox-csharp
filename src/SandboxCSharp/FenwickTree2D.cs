@@ -4,9 +4,9 @@ namespace SandboxCSharp
 {
     public class FenwickTree2D
     {
+        private readonly long[,] _data;
         private readonly int _height;
         private readonly int _width;
-        private readonly long[,] _data;
 
         public FenwickTree2D(int h, int w)
         {

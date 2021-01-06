@@ -4,10 +4,10 @@ namespace SandboxCSharp
 {
     public class CumulativeSum2D
     {
-        private readonly int _height;
-        private readonly int _width;
         private readonly long[,] _data;
+        private readonly int _height;
         private readonly long[,] _sum;
+        private readonly int _width;
         private bool _isUpdated;
 
         public CumulativeSum2D(int h, int w)

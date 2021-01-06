@@ -10,15 +10,9 @@ namespace SandboxCSharp
         public readonly double Ty;
         public double Length => Math.Sqrt((Tx - Sx) * (Tx - Sx) + (Ty - Sy) * (Ty - Sy));
 
-        public Line(double sx, double sy, double tx, double ty)
-        {
-            (Sx, Sy, Tx, Ty) = (sx, sy, tx, ty);
-        }
+        public Line(double sx, double sy, double tx, double ty) => (Sx, Sy, Tx, Ty) = (sx, sy, tx, ty);
 
-        public bool Intersect(in Line other)
-        {
-            return Intersect(this, other);
-        }
+        public bool Intersect(in Line other) => Intersect(this, other);
 
         public static bool Intersect(in Line a, in Line b)
         {

@@ -131,18 +131,12 @@ namespace SandboxCSharp.Tests
             public readonly int A;
             public readonly int B;
 
-            public SampleStruct(int a, int b)
-            {
-                (A, B) = (a, b);
-            }
+            public SampleStruct(int a, int b) => (A, B) = (a, b);
         }
 
         private class SampleClass
         {
-            public SampleClass(int a, int b)
-            {
-                (A, B) = (a, b);
-            }
+            public SampleClass(int a, int b) => (A, B) = (a, b);
 
             public int A { get; }
             public int B { get; }
