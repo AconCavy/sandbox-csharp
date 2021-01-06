@@ -20,7 +20,7 @@ namespace SandboxCSharp
 
             if (divisor == 1) return true;
             foreach (var (p, c) in Prime.GetFactors(divisor))
-                if (!IsMultipleOf_(value, (uint) Math.Pow(p, c)))
+                if (!IsMultipleOf_(value, (uint)Math.Pow(p, c)))
                     return false;
 
             return true;
@@ -64,7 +64,7 @@ namespace SandboxCSharp
             }
 
             var v1 = value.Length <= stackSize ? stackalloc sbyte[value.Length] : new sbyte[value.Length];
-            for (var i = 0; i < value.Length; i++) v1[i] = (sbyte) (value[i] - '0');
+            for (var i = 0; i < value.Length; i++) v1[i] = (sbyte)(value[i] - '0');
             if (divisor % 3 == 0)
             {
                 foreach (var v in v1) x += v;
@@ -81,7 +81,7 @@ namespace SandboxCSharp
                 var y = v1[idx] * n;
                 for (size = 1; y > 0; size++)
                 {
-                    v1[idx - size] -= (sbyte) (y % 10);
+                    v1[idx - size] -= (sbyte)(y % 10);
                     y /= 10;
                 }
 
@@ -107,7 +107,7 @@ namespace SandboxCSharp
             var idx = 1;
             while (value > 0)
             {
-                ret[^idx] = (int) (value % 10);
+                ret[^idx] = (int)(value % 10);
                 value /= 10;
                 idx++;
             }
@@ -122,7 +122,7 @@ namespace SandboxCSharp
             if (value == 0) ret[0]++;
             while (value > 0)
             {
-                ret[(int) value % 10]++;
+                ret[(int)value % 10]++;
                 value /= 10;
             }
 
@@ -131,11 +131,11 @@ namespace SandboxCSharp
 
         public static int GetModulo(ReadOnlySpan<char> value, uint modulo)
         {
-            if (value.Length <= ParsableDigit) return (int) (ulong.Parse(value) % modulo);
+            if (value.Length <= ParsableDigit) return (int)(ulong.Parse(value) % modulo);
             if (modulo == 1) return 0;
             var ret = 0U;
-            foreach (var d in value) ret = (ret * 10 + (uint) (d - '0')) % modulo;
-            return (int) ret;
+            foreach (var d in value) ret = (ret * 10 + (uint)(d - '0')) % modulo;
+            return (int)ret;
         }
     }
 }

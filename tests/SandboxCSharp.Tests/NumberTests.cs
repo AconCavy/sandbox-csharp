@@ -13,7 +13,7 @@ namespace SandboxCSharp.Tests
             {
                 var str = i.ToString();
                 var expected = i % p == 0;
-                var actual = Number.IsMultipleOf(str, (uint) p);
+                var actual = Number.IsMultipleOf(str, (uint)p);
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }
@@ -26,7 +26,7 @@ namespace SandboxCSharp.Tests
             {
                 var str = i.ToString();
                 var expected = i % p == 0;
-                var actual = Number.IsMultipleOf(str, (uint) p);
+                var actual = Number.IsMultipleOf(str, (uint)p);
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }
@@ -50,7 +50,7 @@ namespace SandboxCSharp.Tests
             {
                 var str = i.ToString();
                 var expected = i % p == 0;
-                var actual = Number.IsMultipleOf(str, (uint) p);
+                var actual = Number.IsMultipleOf(str, (uint)p);
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }
@@ -63,7 +63,7 @@ namespace SandboxCSharp.Tests
             {
                 var str = i.ToString();
                 var expected = i % p == 0;
-                var actual = Number.IsMultipleOf(str, (uint) p);
+                var actual = Number.IsMultipleOf(str, (uint)p);
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }
@@ -76,7 +76,7 @@ namespace SandboxCSharp.Tests
             {
                 var str = i.ToString();
                 var expected = i % p == 0;
-                var actual = Number.IsMultipleOf(str, (uint) p);
+                var actual = Number.IsMultipleOf(str, (uint)p);
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }
@@ -154,7 +154,7 @@ namespace SandboxCSharp.Tests
             {
                 var str = i.ToString();
                 var expected = i % p;
-                var actual = Number.GetModulo(str, (uint) p);
+                var actual = Number.GetModulo(str, (uint)p);
                 Assert.That(actual, Is.EqualTo(expected));
             }
         }

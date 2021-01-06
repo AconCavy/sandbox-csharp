@@ -15,9 +15,6 @@ namespace SandboxCSharp.Benchmark
         public static IEnumerable<int> TestCount() => Enumerable.Range(1, 10);
 
         [Benchmark]
-        public void Combine()
-        {
-            Enumerable.Range(0, 10).Combine(N).Consume(_consumer);
-        }
+        public void Combine() => Enumerable.Range(0, 10).Combine(N).Consume(_consumer);
     }
 }
