@@ -98,7 +98,8 @@ namespace SandboxCSharp
             return bits;
         }
 
-        public static bool Intersect(long x1, long y1, long x2, long y2, long x3, long y3, long x4, long y4)
+        public static bool Intersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4,
+            double y4)
         {
             var t1 = (x3 - x4) * (y1 - y3) + (y3 - y4) * (x3 - x1);
             var t2 = (x3 - x4) * (y2 - y3) + (y3 - y4) * (x3 - x2);
@@ -107,11 +108,21 @@ namespace SandboxCSharp
             return t1 * t2 < 0 && t3 * t4 < 0;
         }
 
-        public static double GetTriangleAria(double x1, double y1, double x2, double y2, double x3, double y3)
+        public static double TriangleAria(double x1, double y1, double x2, double y2, double x3, double y3)
         {
             var (dx1, dy1) = (x2 - x1, y2 - y1);
             var (dx2, dy2) = (x3 - x1, y3 - y1);
-            return (dx1 * dy2 - dx2 * dy1) / 2;
+            return Math.Abs((dx1 * dy2 - dx2 * dy1) / 2);
+        }
+
+        public static double PerpendicularLineLength(double x, double y, double x1, double y1, double x2, double y2)
+        {
+            var (dx, dy) = (x2 - x1, y2 - y1);
+            if (dx == 0) return Math.Abs(x1 - x);
+            var m = dy / dx;
+            var a = m;
+            var c = y1 - m * x1;
+            return Math.Abs(a * x - y + c) / Math.Sqrt(a * a + 1);
         }
     }
 }
