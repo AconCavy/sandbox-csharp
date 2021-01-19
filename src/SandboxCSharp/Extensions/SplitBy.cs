@@ -5,7 +5,7 @@ namespace SandboxCSharp.Extensions
 {
     public static partial class EnumerableExtension
     {
-        public static IEnumerable<IEnumerable<T>> DivideBy<T>(this IEnumerable<T> source, int size)
+        public static IEnumerable<IEnumerable<T>> SplitBy<T>(this IEnumerable<T> source, int size)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (size <= 0) throw new ArgumentException(nameof(size));
