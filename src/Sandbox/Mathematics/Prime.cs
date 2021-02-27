@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace Sandbox
+namespace Sandbox.Mathematics
 {
     public static class Prime
     {
@@ -32,7 +32,7 @@ namespace Sandbox
         public static int[] GetPrimes(int value)
         {
             if (value < 2) return Array.Empty<int>();
-            if (value == 2) return new[] {2};
+            if (value == 2) return new[] { 2 };
             const int bit = 32;
             const int limit = 1024;
             value = (value + 1) / 2;
@@ -74,7 +74,7 @@ namespace Sandbox
 
             long d = value - 1;
             d /= d & -d;
-            foreach (var w in stackalloc long[] {2, 7, 61})
+            foreach (var w in stackalloc long[] { 2, 7, 61 })
             {
                 var a = 1L;
                 var t = d;

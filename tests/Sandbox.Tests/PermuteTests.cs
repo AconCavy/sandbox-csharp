@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -16,12 +16,12 @@ namespace Sandbox.Tests
 
             var expected = new List<int[]>();
             for (var a = 1; a <= count; a++)
-            for (var b = 1; b <= count; b++)
-            for (var c = 1; c <= count; c++)
-            {
-                if (a == b || b == c || c == a) continue;
-                expected.Add(new[] {a, b, c});
-            }
+                for (var b = 1; b <= count; b++)
+                    for (var c = 1; c <= count; c++)
+                    {
+                        if (a == b || b == c || c == a) continue;
+                        expected.Add(new[] { a, b, c });
+                    }
 
             var actual = items.Permute(count);
 
@@ -36,11 +36,11 @@ namespace Sandbox.Tests
 
             var expected = new List<int[]>();
             for (var a = 1; a <= count; a++)
-            for (var b = 1; b <= count; b++)
-            {
-                if (a == b) continue;
-                expected.Add(new[] {a, b});
-            }
+                for (var b = 1; b <= count; b++)
+                {
+                    if (a == b) continue;
+                    expected.Add(new[] { a, b });
+                }
 
             var actual = items.Permute(2);
 
@@ -55,12 +55,12 @@ namespace Sandbox.Tests
 
             var expected = new List<int[]>();
             for (var a = 1; a <= count; a++)
-            for (var b = 1; b <= count; b++)
-            for (var c = 1; c <= count; c++)
-            {
-                if (a == b || b == c || c == a) continue;
-                expected.Add(new[] {a, b, c});
-            }
+                for (var b = 1; b <= count; b++)
+                    for (var c = 1; c <= count; c++)
+                    {
+                        if (a == b || b == c || c == a) continue;
+                        expected.Add(new[] { a, b, c });
+                    }
 
             var actual = items.Permute(3);
 

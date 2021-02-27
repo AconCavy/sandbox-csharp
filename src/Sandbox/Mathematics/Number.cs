@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Sandbox
+namespace Sandbox.Mathematics
 {
     public static class Number
     {
@@ -20,7 +20,7 @@ namespace Sandbox
 
             if (divisor == 1) return true;
             foreach (var (p, c) in Prime.GetFactors(divisor))
-                if (!IsMultipleOf_(value, (uint)Math.Pow(p, c)))
+                if (!IsMultipleOf_(value, (uint)System.Math.Pow(p, c)))
                     return false;
 
             return true;
@@ -100,8 +100,8 @@ namespace Sandbox
 
         public static int[] ToDigits(long value)
         {
-            if (value == 0) return new[] {0};
-            value = Math.Abs(value);
+            if (value == 0) return new[] { 0 };
+            value = System.Math.Abs(value);
             const int size = 32;
             Span<int> ret = stackalloc int[size];
             var idx = 1;
@@ -117,7 +117,7 @@ namespace Sandbox
 
         public static int[] GetNumberCounts(long value)
         {
-            value = Math.Abs(value);
+            value = System.Math.Abs(value);
             Span<int> ret = stackalloc int[10];
             if (value == 0) ret[0]++;
             while (value > 0)

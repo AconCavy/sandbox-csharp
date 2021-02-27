@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.Linq;
 using NUnit.Framework;
+using Sandbox.Mathematics;
+using Math = System.Math;
 
 namespace Sandbox.Tests
 {

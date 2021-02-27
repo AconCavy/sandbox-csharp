@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Sandbox.Geometry
@@ -62,7 +62,7 @@ namespace Sandbox.Geometry
             var a = Point.Distance(Point2, Point3);
             var b = Point.Distance(Point3, Point1);
             var c = Point.Distance(Point1, Point2);
-            return new[] {WeightedPoint(-a, b, c), WeightedPoint(a, -b, c), WeightedPoint(a, b, -c)};
+            return new[] { WeightedPoint(-a, b, c), WeightedPoint(a, -b, c), WeightedPoint(a, b, -c) };
         }
 
         private Point WeightedPoint(double w1, double w2, double w3)

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sandbox.Extensions;
 
-namespace Sandbox
+namespace Sandbox.Mathematics
 {
     public static class NQueensProblem
     {
@@ -36,14 +36,14 @@ namespace Sandbox
                 }
 
                 for (var r = 0; r < size; r++)
-                for (var c = 0; c < size; c++)
-                {
-                    if (answer[r][c] || !CanPlace(answer, r, c)) continue;
-                    answer[r][c] = true;
-                    Inner(placed + 1);
-                    if (isIdentified) return;
-                    answer[r][c] = false;
-                }
+                    for (var c = 0; c < size; c++)
+                    {
+                        if (answer[r][c] || !CanPlace(answer, r, c)) continue;
+                        answer[r][c] = true;
+                        Inner(placed + 1);
+                        if (isIdentified) return;
+                        answer[r][c] = false;
+                    }
             }
 
             Inner(queens.Length);
@@ -53,7 +53,7 @@ namespace Sandbox
         public static bool CanPlace(in bool[][] grid, int r, int c)
         {
             var size = grid.Length;
-            var d4 = new[] {(1, 1), (1, -1), (-1, 1), (-1, -1)};
+            var d4 = new[] { (1, 1), (1, -1), (-1, 1), (-1, -1) };
             for (var i = 1; i < size; i++)
                 foreach (var (dr, dc) in d4)
                 {

@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes;
+using Sandbox.Mathematics;
 
 namespace Sandbox.Benchmark
 {

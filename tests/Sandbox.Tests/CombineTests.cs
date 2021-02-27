@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -16,9 +16,9 @@ namespace Sandbox.Tests
 
             var expected = new List<int[]>();
             for (var a = 1; a <= count - 2; a++)
-            for (var b = a + 1; b <= count - 1; b++)
-            for (var c = b + 1; c <= count; c++)
-                expected.Add(new[] {a, b, c});
+                for (var b = a + 1; b <= count - 1; b++)
+                    for (var c = b + 1; c <= count; c++)
+                        expected.Add(new[] { a, b, c });
 
             var actual = items.Combine(count);
 
@@ -33,8 +33,8 @@ namespace Sandbox.Tests
 
             var expected = new List<int[]>();
             for (var a = 1; a <= count - 1; a++)
-            for (var b = a + 1; b <= count; b++)
-                expected.Add(new[] {a, b});
+                for (var b = a + 1; b <= count; b++)
+                    expected.Add(new[] { a, b });
 
             var actual = items.Combine(2);
 
@@ -49,11 +49,11 @@ namespace Sandbox.Tests
 
             var expected = new List<int[]>();
             for (var a = 1; a <= count - 4; a++)
-            for (var b = a + 1; b <= count - 3; b++)
-            for (var c = b + 1; c <= count - 2; c++)
-            for (var d = c + 1; d <= count - 1; d++)
-            for (var e = d + 1; e <= count; e++)
-                expected.Add(new[] {a, b, c, d, e});
+                for (var b = a + 1; b <= count - 3; b++)
+                    for (var c = b + 1; c <= count - 2; c++)
+                        for (var d = c + 1; d <= count - 1; d++)
+                            for (var e = d + 1; e <= count; e++)
+                                expected.Add(new[] { a, b, c, d, e });
 
             var actual = items.Combine(5);
 

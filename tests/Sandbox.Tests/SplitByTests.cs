@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -13,7 +13,7 @@ namespace Sandbox.Tests
         {
             var items = Enumerable.Range(0, 9);
 
-            var expected = new[] {new[] {0, 1, 2}, new[] {3, 4, 5}, new[] {6, 7, 8}};
+            var expected = new[] { new[] { 0, 1, 2 }, new[] { 3, 4, 5 }, new[] { 6, 7, 8 } };
             var actual = items.SplitBy(3);
 
             Assert.That(actual, Is.EqualTo(expected));
@@ -24,7 +24,7 @@ namespace Sandbox.Tests
         {
             var items = Enumerable.Range(0, 10);
 
-            var expected = new[] {new[] {0, 1, 2}, new[] {3, 4, 5}, new[] {6, 7, 8}, new[] {9}};
+            var expected = new[] { new[] { 0, 1, 2 }, new[] { 3, 4, 5 }, new[] { 6, 7, 8 }, new[] { 9 } };
             var actual = items.SplitBy(3);
 
             Assert.That(actual, Is.EqualTo(expected));
@@ -35,7 +35,7 @@ namespace Sandbox.Tests
         {
             var items = Enumerable.Range(0, 2);
 
-            var expected = new[] {new[] {0, 1}};
+            var expected = new[] { new[] { 0, 1 } };
             var actual = items.SplitBy(3);
 
             Assert.That(actual, Is.EqualTo(expected));

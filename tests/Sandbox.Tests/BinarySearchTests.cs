@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -89,7 +89,7 @@ namespace Sandbox.Tests
         [Test]
         public void OneElementTest([Range(-1, 1)] int value)
         {
-            var items = new[] {value};
+            var items = new[] { value };
             Assert.That(items.BinarySearch(0), Is.EqualTo(SearchNaive(items, 0)));
             Assert.That(items.LowerBound(0), Is.EqualTo(LowerBoundNaive(items, 0)));
             Assert.That(items.UpperBound(0), Is.EqualTo(UpperBoundNaive(items, 0)));

@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Sandbox
+namespace Sandbox.Mathematics
 {
     public static class Mathematics
     {
-        private static readonly Dictionary<long, long> Memo = new Dictionary<long, long> {{0, 1}, {1, 1}};
+        private static readonly Dictionary<long, long> Memo = new Dictionary<long, long> { { 0, 1 }, { 1, 1 } };
         private static long _max = 1;
 
         public static long Factorial(long n)
@@ -34,7 +33,7 @@ namespace Sandbox
             if (n < 0) throw new ArgumentException(nameof(n));
             if (r < 0) throw new ArgumentException(nameof(r));
             if (n < r) return 0;
-            r = Math.Min(r, n - r);
+            r = System.Math.Min(r, n - r);
             return Permutation(n, r, useMemo) / Factorial(r);
         }
 
@@ -113,17 +112,17 @@ namespace Sandbox
         {
             var (dx1, dy1) = (x2 - x1, y2 - y1);
             var (dx2, dy2) = (x3 - x1, y3 - y1);
-            return Math.Abs((dx1 * dy2 - dx2 * dy1) / 2);
+            return System.Math.Abs((dx1 * dy2 - dx2 * dy1) / 2);
         }
 
         public static double PerpendicularLineLength(double x, double y, double x1, double y1, double x2, double y2)
         {
             var (dx, dy) = (x2 - x1, y2 - y1);
-            if (dx == 0) return Math.Abs(x1 - x);
+            if (dx == 0) return System.Math.Abs(x1 - x);
             var m = dy / dx;
             var a = m;
             var c = y1 - m * x1;
-            return Math.Abs(a * x - y + c) / Math.Sqrt(a * a + 1);
+            return System.Math.Abs(a * x - y + c) / System.Math.Sqrt(a * a + 1);
         }
     }
 }

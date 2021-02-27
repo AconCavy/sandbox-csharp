@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Sandbox.Naives
 {
@@ -26,7 +26,7 @@ namespace Sandbox.Naives
         public static int[] GetPrimes(int value)
         {
             if (value < 2) return new int[0];
-            if (value == 2) return new[] {2};
+            if (value == 2) return new[] { 2 };
             var sieve = new bool[value + 1];
             sieve[2] = true;
             for (var i = 3; i <= value; i += 2) sieve[i] = true;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -24,7 +24,7 @@ namespace Sandbox.Tests
         [Test]
         public void DeltaOneItemTest()
         {
-            var items = new[] {0};
+            var items = new[] { 0 };
             var expected = new int[0];
 
             var actual = items.Delta((x, y) => y - x);

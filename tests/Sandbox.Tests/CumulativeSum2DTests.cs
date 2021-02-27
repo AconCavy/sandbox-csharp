@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using NUnit.Framework;
+using Sandbox.Structures;
 
 namespace Sandbox.Tests
 {
@@ -48,16 +49,16 @@ namespace Sandbox.Tests
             const int width = 3;
             var cum = new CumulativeSum2D(height, width);
             for (var i = 0; i < height; i++)
-            for (var j = 0; j < width; j++)
-                cum.Set(i, j, 1);
+                for (var j = 0; j < width; j++)
+                    cum.Set(i, j, 1);
 
             for (var i = 0; i < height; i++)
-            for (var j = 0; j < width; j++)
-            {
-                var expected = (i + 1) * (j + 1);
-                var actual = cum.Sum(i, j);
-                Assert.That(actual, Is.EqualTo(expected));
-            }
+                for (var j = 0; j < width; j++)
+                {
+                    var expected = (i + 1) * (j + 1);
+                    var actual = cum.Sum(i, j);
+                    Assert.That(actual, Is.EqualTo(expected));
+                }
         }
 
         [Test]
@@ -70,22 +71,22 @@ namespace Sandbox.Tests
             var cum = new CumulativeSum2D(height, width);
 
             for (var i = 0; i < height; i++)
-            for (var j = 0; j < width; j++)
-            {
-                var value = random.Next(0, 10);
-                ft.Add(i, j, value);
-                cum.Add(i, j, value);
-            }
+                for (var j = 0; j < width; j++)
+                {
+                    var value = random.Next(0, 10);
+                    ft.Add(i, j, value);
+                    cum.Add(i, j, value);
+                }
 
             for (var h1 = 0; h1 < height; h1++)
-            for (var w1 = 0; w1 < width; w1++)
-            for (var h2 = 0; h2 <= h1; h2++)
-            for (var w2 = 0; w2 <= w1; w2++)
-            {
-                var sum1 = ft.Sum(h1, w1, h2, w2);
-                var sum2 = cum.Sum(h1, w1, h2, w2);
-                Assert.That(sum1, Is.EqualTo(sum2));
-            }
+                for (var w1 = 0; w1 < width; w1++)
+                    for (var h2 = 0; h2 <= h1; h2++)
+                        for (var w2 = 0; w2 <= w1; w2++)
+                        {
+                            var sum1 = ft.Sum(h1, w1, h2, w2);
+                            var sum2 = cum.Sum(h1, w1, h2, w2);
+                            Assert.That(sum1, Is.EqualTo(sum2));
+                        }
         }
     }
 }

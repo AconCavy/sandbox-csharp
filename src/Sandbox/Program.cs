@@ -1,4 +1,4 @@
-﻿namespace Sandbox
+namespace Sandbox
 {
     public static class Program
     {
