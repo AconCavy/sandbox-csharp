@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sandbox.Mathematics
 {
-    public static class Mathematics
+    public static partial class Mathematics
     {
         private static readonly Dictionary<long, long> Memo = new Dictionary<long, long> { { 0, 1 }, { 1, 1 } };
         private static long _max = 1;
@@ -45,31 +45,6 @@ namespace Sandbox.Mathematics
                 yield return i;
                 if (n / i != i) yield return n / i;
             }
-        }
-
-        private static long GreatestCommonDivisor(long a, long b)
-        {
-            while (true)
-            {
-                if (b == 0) return a;
-                (a, b) = (b, a % b);
-            }
-        }
-
-        public static long LeastCommonMultiple(long a, long b) => a / GreatestCommonDivisor(a, b) * b;
-
-        public static long ExtendedGreatestCommonDivisor(long a, long b, out long x, out long y)
-        {
-            if (b == 0)
-            {
-                x = 1;
-                y = 0;
-                return a;
-            }
-
-            var d = ExtendedGreatestCommonDivisor(b, a % b, out y, out x);
-            y -= a / b * x;
-            return d;
         }
 
         public static long Xor0To(long x)
