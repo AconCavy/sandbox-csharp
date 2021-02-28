@@ -49,9 +49,10 @@ namespace Sandbox.Structures
             }
         }
 
-        public IEnumerable<long> Dijkstra(int start)
+        public IEnumerable<long> Dijkstra(int start, Func<long, long, long> func = null)
         {
             if (start < 0 || Count <= start) throw new ArgumentOutOfRangeException(nameof(start));
+            func ??= (x, y) => x + y;
             var queue = new PriorityQueue<(int U, long Cost)>((x, y) => x.Cost.CompareTo(y.Cost));
             queue.Enqueue((start, 0));
             var costs = new long[Count];
@@ -60,11 +61,13 @@ namespace Sandbox.Structures
             while (queue.Any())
             {
                 var (u, cu) = queue.Dequeue();
+                if (cu >= costs[u]) continue;
                 foreach (var (v, cv) in _data[u])
                 {
-                    if (costs[v] <= costs[u] + cv) continue;
-                    costs[v] = costs[u] + cv;
-                    queue.Enqueue((v, costs[v]));
+                    var c = func(costs[u], cv);
+                    if (costs[v] <= c) continue;
+                    costs[v] = c;
+                    queue.Enqueue((v, c));
                 }
             }
 
