@@ -89,5 +89,27 @@ namespace Sandbox.Structures
 
             return cost;
         }
+
+        public (bool, IEnumerable<int>) IsBipartite()
+        {
+            var queue = new Queue<int>();
+            queue.Enqueue(0);
+            var colors = new int[Count];
+            Array.Fill(colors, -1);
+            colors[0] = 0;
+            while (queue.Any())
+            {
+                var u = queue.Dequeue();
+                foreach (var (v, _) in _data[u])
+                {
+                    if (colors[u] == colors[v]) return (false, colors);
+                    if (colors[v] != -1) continue;
+                    colors[v] = colors[u] ^ 1;
+                    queue.Enqueue(v);
+                }
+            }
+
+            return (true, colors);
+        }
     }
 }
