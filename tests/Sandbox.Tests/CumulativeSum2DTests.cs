@@ -52,10 +52,10 @@ namespace Sandbox.Tests
                 for (var j = 0; j < width; j++)
                     cum.Set(i, j, 1);
 
-            for (var i = 0; i < height; i++)
-                for (var j = 0; j < width; j++)
+            for (var i = 0; i <= height; i++)
+                for (var j = 0; j <= width; j++)
                 {
-                    var expected = (i + 1) * (j + 1);
+                    var expected = i * j;
                     var actual = cum.Sum(i, j);
                     Assert.That(actual, Is.EqualTo(expected));
                 }
@@ -78,10 +78,10 @@ namespace Sandbox.Tests
                     cum.Add(i, j, value);
                 }
 
-            for (var h1 = 0; h1 < height; h1++)
-                for (var w1 = 0; w1 < width; w1++)
-                    for (var h2 = 0; h2 <= h1; h2++)
-                        for (var w2 = 0; w2 <= w1; w2++)
+            for (var h1 = 0; h1 <= height; h1++)
+                for (var w1 = 0; w1 <= width; w1++)
+                    for (var h2 = h1; h2 <= height; h2++)
+                        for (var w2 = w1; w2 <= width; w2++)
                         {
                             var sum1 = ft.Sum(h1, w1, h2, w2);
                             var sum2 = cum.Sum(h1, w1, h2, w2);

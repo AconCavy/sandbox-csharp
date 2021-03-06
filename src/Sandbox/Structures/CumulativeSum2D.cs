@@ -45,21 +45,21 @@ namespace Sandbox.Structures
 
         public long Sum(int h, int w)
         {
-            if (h < 0 || _height <= h) throw new ArgumentOutOfRangeException(nameof(h));
-            if (w < 0 || _width <= w) throw new ArgumentOutOfRangeException(nameof(w));
+            if (h < 0 || _height < h) throw new ArgumentOutOfRangeException(nameof(h));
+            if (w < 0 || _width < w) throw new ArgumentOutOfRangeException(nameof(w));
             if (!_isUpdated) Build();
-            return _sum[h + 1, w + 1];
+            return _sum[h, w];
         }
 
 
         public long Sum(int h1, int w1, int h2, int w2)
         {
-            if (h1 < 0 || _height <= h1) throw new ArgumentOutOfRangeException(nameof(h1));
-            if (w1 < 0 || _width <= w1) throw new ArgumentOutOfRangeException(nameof(w1));
-            if (h2 < 0 || _height <= h2) throw new ArgumentOutOfRangeException(nameof(h2));
-            if (w2 < 0 || _width <= w2) throw new ArgumentOutOfRangeException(nameof(w2));
+            if (h1 < 0 || _height < h1) throw new ArgumentOutOfRangeException(nameof(h1));
+            if (w1 < 0 || _width < w1) throw new ArgumentOutOfRangeException(nameof(w1));
+            if (h2 < 0 || _height < h2) throw new ArgumentOutOfRangeException(nameof(h2));
+            if (w2 < 0 || _width < w2) throw new ArgumentOutOfRangeException(nameof(w2));
             if (!_isUpdated) Build();
-            return _sum[h1 + 1, w1 + 1] + _sum[h2 + 1, w2 + 1] - _sum[h2 + 1, w1 + 1] - _sum[h1 + 1, w2 + 1];
+            return _sum[h1, w1] + _sum[h2, w2] - _sum[h2, w1] - _sum[h1, w2];
         }
 
         private void Build()
