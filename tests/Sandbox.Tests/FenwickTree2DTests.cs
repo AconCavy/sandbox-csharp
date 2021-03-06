@@ -32,6 +32,9 @@ namespace Sandbox.Tests
             const int expected = 1;
             cum.Add(0, 0, expected);
             var actual = cum.Sum(0, 0);
+            Assert.That(actual, Is.Zero);
+
+            actual = cum.Sum(1, 1);
             Assert.That(actual, Is.EqualTo(expected));
         }
 
@@ -45,10 +48,10 @@ namespace Sandbox.Tests
                 for (var j = 0; j < width; j++)
                     cum.Add(i, j, 1);
 
-            for (var i = 0; i < height; i++)
-                for (var j = 0; j < width; j++)
+            for (var i = 0; i <= height; i++)
+                for (var j = 0; j <= width; j++)
                 {
-                    var expected = (i + 1) * (j + 1);
+                    var expected = i * j;
                     var actual = cum.Sum(i, j);
                     Assert.That(actual, Is.EqualTo(expected));
                 }
