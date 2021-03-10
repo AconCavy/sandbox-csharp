@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Sandbox.Mathematics
 {
-    public class Matrix
+    public readonly struct Matrix
     {
         public int Height { get; }
         public int Width { get; }
@@ -23,7 +23,14 @@ namespace Sandbox.Mathematics
             _data = new long[height, width];
         }
 
-        public Matrix Add(Matrix other) => Add(this, other);
+        public static Matrix Identity(int n)
+        {
+            var matrix = new Matrix(n, n);
+            for (var i = 0; i < n; i++) matrix[i, i] = 1;
+            return matrix;
+        }
+
+        public Matrix Add(in Matrix other) => Add(this, other);
 
         public static Matrix Add(in Matrix a, in Matrix b)
         {
@@ -37,7 +44,7 @@ namespace Sandbox.Mathematics
             return c;
         }
 
-        public Matrix Add(Matrix other, long mod) => Add(this, other, mod);
+        public Matrix Add(in Matrix other, long mod) => Add(this, other, mod);
 
         public static Matrix Add(in Matrix a, in Matrix b, long mod)
         {
@@ -51,7 +58,7 @@ namespace Sandbox.Mathematics
             return c;
         }
 
-        public Matrix Multiply(Matrix other) => Multiply(this, other);
+        public Matrix Multiply(in Matrix other) => Multiply(this, other);
 
         public static Matrix Multiply(in Matrix a, in Matrix b)
         {
@@ -65,7 +72,7 @@ namespace Sandbox.Mathematics
             return c;
         }
 
-        public Matrix Multiply(Matrix other, long mod) => Multiply(this, other, mod);
+        public Matrix Multiply(in Matrix other, long mod) => Multiply(this, other, mod);
 
         public static Matrix Multiply(in Matrix a, in Matrix b, long mod)
         {
@@ -81,16 +88,15 @@ namespace Sandbox.Mathematics
 
         public Matrix Power(long n) => Power(this, n);
 
-        public static Matrix Power(in Matrix matrix, long n)
+        public static Matrix Power(Matrix matrix, long n)
         {
             if (matrix.Height != matrix.Width) throw new ArgumentException(nameof(matrix));
-            var mat = matrix.Copy();
-            var ret = new Matrix(mat.Height, mat.Height);
-            for (var i = 0; i < mat.Height; i++) ret[i, i] = 1;
+            var ret = new Matrix(matrix.Height, matrix.Height);
+            for (var i = 0; i < matrix.Height; i++) ret[i, i] = 1;
             while (n > 0)
             {
-                if ((n & 1) == 1) ret = Multiply(ret, mat);
-                mat = Multiply(mat, mat);
+                if ((n & 1) == 1) ret = Multiply(ret, matrix);
+                matrix = Multiply(matrix, matrix);
                 n >>= 1;
             }
 
@@ -99,30 +105,17 @@ namespace Sandbox.Mathematics
 
         public Matrix Power(long n, long mod) => Power(this, n, mod);
 
-        public static Matrix Power(in Matrix matrix, long n, long mod)
+        public static Matrix Power(Matrix matrix, long n, long mod)
         {
             if (matrix.Height != matrix.Width) throw new ArgumentException(nameof(matrix));
-            var mat = matrix.Copy();
-            var ret = new Matrix(mat.Height, mat.Height);
-            for (var i = 0; i < mat.Height; i++) ret[i, i] = 1;
+            var ret = new Matrix(matrix.Height, matrix.Height);
+            for (var i = 0; i < matrix.Height; i++) ret[i, i] = 1;
             while (n > 0)
             {
-                if ((n & 1) == 1) ret = Multiply(ret, mat, mod);
-                mat = Multiply(mat, mat, mod);
+                if ((n & 1) == 1) ret = Multiply(ret, matrix, mod);
+                matrix = Multiply(matrix, matrix, mod);
                 n >>= 1;
             }
-
-            return ret;
-        }
-
-        public Matrix Copy() => Copy(this);
-
-        public static Matrix Copy(in Matrix matrix)
-        {
-            var ret = new Matrix(matrix.Height, matrix.Width);
-            for (var i = 0; i < matrix.Height; i++)
-                for (var j = 0; j < matrix.Width; j++)
-                    ret[i, j] = matrix[i, j];
 
             return ret;
         }
