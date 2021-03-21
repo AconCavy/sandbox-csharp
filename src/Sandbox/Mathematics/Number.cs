@@ -19,7 +19,7 @@ namespace Sandbox.Mathematics
                         throw new ArgumentException(nameof(value));
 
             if (divisor == 1) return true;
-            foreach (var (p, c) in Prime.GetFactors(divisor))
+            foreach (var (p, c) in Prime.GetFactorDictionary(divisor))
                 if (!IsMultipleOf_(value, (uint)System.Math.Pow(p, c)))
                     return false;
 

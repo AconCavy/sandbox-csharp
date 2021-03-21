@@ -4,7 +4,7 @@ namespace Sandbox.Naives
 {
     public static class Prime
     {
-        public static IDictionary<long, int> GetFactors(long value)
+        public static IDictionary<long, int> GetFactorDictionary(long value)
         {
             var factors = new Dictionary<long, int>();
             if (value < 2) return factors;
@@ -23,41 +23,27 @@ namespace Sandbox.Naives
             return factors;
         }
 
-        public static int[] GetPrimes(int value)
+        public static IEnumerable<int> Sieve(int value)
         {
-            if (value < 2) return new int[0];
-            if (value == 2) return new[] { 2 };
+            if (value < 2) yield break;
             var sieve = new bool[value + 1];
-            sieve[2] = true;
-            for (var i = 3; i <= value; i += 2) sieve[i] = true;
-            for (var i = 3; i * i <= value;)
+            for (var i = 2; i < sieve.Length; i++)
             {
-                for (var j = i * 2; j <= value; j += i) sieve[j] = false;
-                do
-                {
-                    i++;
-                } while (i * i <= value && !sieve[i]);
+                if (sieve[i]) continue;
+                yield return i;
+                for (var j = i; j < sieve.Length; j += i) sieve[j] = true;
             }
-
-            var primes = new int[value + 1];
-            var index = 0;
-            for (var i = 0; i <= value; i++)
-            {
-                if (!sieve[i]) continue;
-                primes[index++] = i;
-            }
-
-            return primes[..index];
         }
 
-        public static bool IsPrime(int value)
+        public static bool IsPrime(long value)
         {
             if (value < 2) return false;
             if (value == 2) return true;
             if (value % 2 == 0) return false;
-            for (var i = 3; i * i <= value; i += 2)
-                if (value % i == 0)
-                    return false;
+            for (var i = 3L; i * i <= value; i += 2)
+            {
+                if (value % i == 0) return false;
+            }
 
             return true;
         }

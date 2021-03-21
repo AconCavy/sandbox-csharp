@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
 using Sandbox.Mathematics;
 
 namespace Sandbox.Benchmark
@@ -7,24 +8,25 @@ namespace Sandbox.Benchmark
     public class PrimeBenchmark
     {
         [Params(100, 10000, 1000000)] public int N;
+        private readonly Consumer _consumer = new Consumer();
 
         [Benchmark]
-        public void GetFactors()
+        public void GetFactorDictionary()
         {
-            for (var i = 0; i <= N; i++) Prime.GetFactors(i);
+            for (var i = 0; i <= N; i++) Prime.GetFactorDictionary(i);
         }
 
         [Benchmark]
-        public void GetFactorsNaive()
+        public void GetFactorDictionaryNaive()
         {
-            for (var i = 0; i <= N; i++) Naives.Prime.GetFactors(i);
+            for (var i = 0; i <= N; i++) Naives.Prime.GetFactorDictionary(i);
         }
 
         [Benchmark]
-        public void GetPrimes() => Prime.GetPrimes(N);
+        public void Sieve() => Prime.Sieve(N).Consume(_consumer);
 
         [Benchmark]
-        public void GetPrimesNaive() => Naives.Prime.GetPrimes(N);
+        public void SieveNaive() => Naives.Prime.Sieve(N).Consume(_consumer);
 
         [Benchmark]
         public void IsPrime()

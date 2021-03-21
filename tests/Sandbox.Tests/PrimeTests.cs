@@ -10,8 +10,8 @@ namespace Sandbox.Tests
         [Parallelizable]
         public void GetFactorsTest([Range(-1, 1000)] int value)
         {
-            var expected = Naives.Prime.GetFactors(value);
-            var actual = Prime.GetFactors(value);
+            var expected = Naives.Prime.GetFactorDictionary(value);
+            var actual = Prime.GetFactorDictionary(value);
 
             Assert.That(actual, Is.EqualTo(expected));
         }
@@ -20,8 +20,8 @@ namespace Sandbox.Tests
         [Parallelizable]
         public void GetPrimesTest([Range(-1, 1000)] int value)
         {
-            var expected = Naives.Prime.GetPrimes(value);
-            var actual = Prime.GetPrimes(value);
+            var expected = Naives.Prime.Sieve(value);
+            var actual = Prime.Sieve(value);
 
             Assert.That(actual, Is.EqualTo(expected));
         }
