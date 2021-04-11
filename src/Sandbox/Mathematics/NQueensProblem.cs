@@ -9,7 +9,7 @@ namespace Sandbox.Mathematics
     {
         public static IEnumerable<bool[][]> Permute(int size)
         {
-            foreach (var permutation in Enumerable.Range(0, size).Permute(size))
+            foreach (var permutation in Enumerable.Range(0, size).Permute())
             {
                 var (isSatisfiable, answer) = Identify(size, permutation.Select((x, i) => (i, x)));
                 if (isSatisfiable) yield return answer;

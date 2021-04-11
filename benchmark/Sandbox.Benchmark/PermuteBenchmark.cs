@@ -15,6 +15,6 @@ namespace Sandbox.Benchmark
         public static IEnumerable<int> TestCount() => Enumerable.Range(1, 10);
 
         [Benchmark]
-        public void Permute() => Enumerable.Range(0, N).Permute(N).Consume(_consumer);
+        public void Permute() => Enumerable.Range(0, N).Permute().Consume(_consumer);
     }
 }

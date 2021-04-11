@@ -6,51 +6,49 @@ namespace Sandbox.Extensions
 {
     public static partial class EnumerableExtension
     {
-        public static IEnumerable<IEnumerable<T>> Permute<T>(this IEnumerable<T> source, int count)
+        public static IEnumerable<IEnumerable<T>> Permute<T>(this IEnumerable<T> source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
             IEnumerable<IEnumerable<T>> Inner()
             {
                 var items = source.ToArray();
-                if (count <= 0 || items.Length < count) throw new ArgumentOutOfRangeException(nameof(count));
-                var idx = 0;
-                var ret = new T[count];
-                foreach (var x in Permutation(items.Length, count))
+                var ret = new T[items.Length];
+                foreach (var indices in PermuteIndices(items.Length))
                 {
-                    ret[idx++] = items[x];
-                    if (idx == count) yield return ret;
-                    idx %= count;
+                    var idx = 0;
+                    foreach (var index in indices) ret[idx++] = items[index];
+                    yield return ret;
                 }
             }
 
             return Inner();
         }
 
-        private static IEnumerable<int> Permutation(int n, int r)
+        private static IEnumerable<IEnumerable<int>> PermuteIndices(int n)
         {
-            var items = new int[r];
-            var used = new bool[n];
-
-            IEnumerable<int> Inner(int step = 0)
+            var indices = Enumerable.Range(0, n).ToArray();
+            yield return indices;
+            while (true)
             {
-                if (step >= r)
+                var (i, j) = (indices.Length - 2, indices.Length - 1);
+                while (i >= 0)
                 {
-                    foreach (var x in items) yield return x;
-                    yield break;
+                    if (indices[i] < indices[i + 1]) break;
+                    i--;
                 }
 
-                for (var i = 0; i < n; i++)
+                if (i == -1) yield break;
+                while (true)
                 {
-                    if (used[i]) continue;
-                    used[i] = true;
-                    items[step] = i;
-                    foreach (var x in Inner(step + 1)) yield return x;
-                    used[i] = false;
+                    if (indices[j] > indices[i]) break;
+                    j--;
                 }
+
+                (indices[i], indices[j]) = (indices[j], indices[i]);
+                Array.Reverse(indices, i + 1, indices.Length - 1 - i);
+                yield return indices;
             }
-
-            return Inner();
         }
     }
 }
