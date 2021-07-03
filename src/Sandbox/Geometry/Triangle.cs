@@ -37,9 +37,9 @@ namespace Sandbox.Geometry
             var b = Point.Distance(Point3, Point1);
             var c = Point.Distance(Point1, Point2);
             var (aa, bb, cc) = (a * a, b * b, c * c);
-            var w1 = aa * aa - (bb - cc) * (bb - cc);
-            var w2 = bb * bb - (cc - aa) * (cc - aa);
-            var w3 = cc * cc - (aa - bb) * (aa - bb);
+            var w1 = aa * (bb + cc - aa);
+            var w2 = bb * (cc + aa - bb);
+            var w3 = cc * (aa + bb - cc);
             return WeightedPoint(w1, w2, w3);
         }
 
@@ -49,9 +49,9 @@ namespace Sandbox.Geometry
             var b = Point.Distance(Point3, Point1);
             var c = Point.Distance(Point1, Point2);
             var (aa, bb, cc) = (a * a, b * b, c * c);
-            var w1 = aa * (bb + cc - aa);
-            var w2 = bb * (cc + aa - aa);
-            var w3 = cc * (aa + bb - aa);
+            var w1 = aa * aa - (bb - cc) * (bb - cc);
+            var w2 = bb * bb - (cc - aa) * (cc - aa);
+            var w3 = cc * cc - (aa - bb) * (aa - bb);
             return WeightedPoint(w1, w2, w3);
         }
 
