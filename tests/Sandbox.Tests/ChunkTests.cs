@@ -6,15 +6,15 @@ using Sandbox.Extensions;
 
 namespace Sandbox.Tests
 {
-    public class SplitByTests
+    public class ChunkTests
     {
         [Test]
-        public void DivideByTest()
+        public void SimpleTest()
         {
             var items = Enumerable.Range(0, 9);
 
             var expected = new[] { new[] { 0, 1, 2 }, new[] { 3, 4, 5 }, new[] { 6, 7, 8 } };
-            var actual = items.SplitBy(3);
+            var actual = items.Chunk(3);
 
             Assert.That(actual, Is.EqualTo(expected));
         }
@@ -25,7 +25,7 @@ namespace Sandbox.Tests
             var items = Enumerable.Range(0, 10);
 
             var expected = new[] { new[] { 0, 1, 2 }, new[] { 3, 4, 5 }, new[] { 6, 7, 8 }, new[] { 9 } };
-            var actual = items.SplitBy(3);
+            var actual = items.Chunk(3);
 
             Assert.That(actual, Is.EqualTo(expected));
         }
@@ -36,7 +36,7 @@ namespace Sandbox.Tests
             var items = Enumerable.Range(0, 2);
 
             var expected = new[] { new[] { 0, 1 } };
-            var actual = items.SplitBy(3);
+            var actual = items.Chunk(3);
 
             Assert.That(actual, Is.EqualTo(expected));
         }
@@ -45,15 +45,15 @@ namespace Sandbox.Tests
         public void NullSourceTest()
         {
             IEnumerable<int> items = null;
-            Assert.Throws<ArgumentNullException>(() => items.SplitBy(1));
+            Assert.Throws<ArgumentNullException>(() => items.Chunk(1));
         }
 
         [Test]
         public void SizeLessThanOrEquals0Test()
         {
             var items = Enumerable.Range(0, 5);
-            Assert.Throws<ArgumentException>(() => items.SplitBy(0));
-            Assert.Throws<ArgumentException>(() => items.SplitBy(-1));
+            Assert.Throws<ArgumentException>(() => items.Chunk(0));
+            Assert.Throws<ArgumentException>(() => items.Chunk(-1));
         }
     }
 }
