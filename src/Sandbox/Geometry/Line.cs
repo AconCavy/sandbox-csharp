@@ -4,18 +4,19 @@ namespace Sandbox.Geometry
 {
     public readonly struct Line : IEquatable<Line>
     {
-        public readonly Point Point1;
-        public readonly Point Point2;
+        public Point Point1 { get; }
+        public Point Point2 { get; }
+        public double Length { get; }
 
-        public Line(in Point point1, in Point point2) => (Point1, Point2) = (point1, point2);
-
-        public Line(double x1, double y1, double x2, double y2) =>
-            (Point1, Point2) = (new Point(x1, y1), new Point(x2, y2));
-
-        public double Length()
+        public Line(Point point1, Point point2)
         {
-            var (dx, dy) = (Point2.X - Point1.X, Point2.Y - Point1.Y);
-            return Math.Sqrt(dx * dx + dy * dy);
+            (Point1, Point2) = (point1, point2);
+            Length = Point.Distance(Point1, Point2);
+        }
+
+        public Line(double x1, double y1, double x2, double y2)
+            : this(new Point(x1, y1), new Point(x2, y2))
+        {
         }
 
         public bool Intersect(in Line other) => Intersect(this, other);

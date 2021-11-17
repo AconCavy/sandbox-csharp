@@ -14,7 +14,9 @@ namespace Sandbox.Geometry
             (Point1, Point2, Point3) = (point1, point2, point3);
 
         public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
-            => (Point1, Point2, Point3) = (new Point(x1, y1), new Point(x2, y2), new Point(x3, y3));
+            : this(new Point(x1, y1), new Point(x2, y2), new Point(x3, y3))
+        {
+        }
 
         public double Aria()
         {
