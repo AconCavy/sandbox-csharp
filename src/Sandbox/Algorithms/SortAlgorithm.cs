@@ -5,10 +5,10 @@ namespace Sandbox.Algorithms
 {
     public static class SortAlgorithm
     {
-        public static void Quick<T>(T[] source, int l, int r, Comparer<T> comparer = null) =>
+        public static void Quick<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
             Quick(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
 
-        public static void Quick<T>(T[] source, int l, int r, Comparison<T> comparison)
+        public static void Quick<T>(Span<T> source, int l, int r, Comparison<T> comparison)
         {
             if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
             if (r <= l) throw new ArgumentException();
@@ -29,10 +29,10 @@ namespace Sandbox.Algorithms
             if (r - rr > 1) Quick(source, rr, r, comparison);
         }
 
-        public static void Bubble<T>(T[] source, int l, int r, Comparer<T> comparer = null) =>
+        public static void Bubble<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
             Bubble(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
 
-        public static void Bubble<T>(T[] source, int l, int r, Comparison<T> comparison)
+        public static void Bubble<T>(Span<T> source, int l, int r, Comparison<T> comparison)
         {
             if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
             if (r <= l) throw new ArgumentException();
@@ -53,10 +53,10 @@ namespace Sandbox.Algorithms
             }
         }
 
-        public static void Merge<T>(T[] source, int l, int r, Comparer<T> comparer = null) =>
+        public static void Merge<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
             Merge(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
 
-        public static void Merge<T>(T[] source, int l, int r, Comparison<T> comparison)
+        public static void Merge<T>(Span<T> source, int l, int r, Comparison<T> comparison)
         {
             if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
             if (r <= l) throw new ArgumentException();
@@ -78,19 +78,15 @@ namespace Sandbox.Algorithms
                 else buffer[idx++] = source[rr++];
             }
 
-            while (ll < m) buffer[idx++] = source[ll++];
-            while (rr < r) buffer[idx++] = source[rr++];
-
-            for (var i = 0; i < n; i++)
-            {
-                source[l + i] = buffer[i];
-            }
+            source[ll..m].CopyTo(buffer.AsSpan(idx..));
+            source[rr..r].CopyTo(buffer.AsSpan((idx + m - ll)..));
+            buffer.AsSpan().CopyTo(source[l..]);
         }
 
-        public static void Insertion<T>(T[] source, int l, int r, Comparer<T> comparer = null) =>
+        public static void Insertion<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
             Insertion(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
 
-        public static void Insertion<T>(T[] source, int l, int r, Comparison<T> comparison)
+        public static void Insertion<T>(Span<T> source, int l, int r, Comparison<T> comparison)
         {
             if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
             if (r <= l) throw new ArgumentException();
@@ -107,10 +103,10 @@ namespace Sandbox.Algorithms
             }
         }
 
-        public static void Shell<T>(T[] source, int l, int r, Comparer<T> comparer = null) =>
+        public static void Shell<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
             Shell(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
 
-        public static void Shell<T>(T[] source, int l, int r, Comparison<T> comparison)
+        public static void Shell<T>(Span<T> source, int l, int r, Comparison<T> comparison)
         {
             if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
             if (r <= l) throw new ArgumentException();
