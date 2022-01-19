@@ -1,12 +1,11 @@
 using BenchmarkDotNet.Running;
 
-namespace Sandbox.Benchmark
+namespace Sandbox.Benchmark;
+
+public static class Program
 {
-    public static class Program
-    {
-        private static void Main() =>
-            // BenchmarkRunner.Run<PrimeBenchmark>();
-            // BenchmarkRunner.Run<PermuteBenchmark>();
-            BenchmarkRunner.Run<CombineBenchmark>();
-    }
+    private static void Main() =>
+        // BenchmarkRunner.Run<PrimeBenchmark>();
+        // BenchmarkRunner.Run<PermuteBenchmark>();
+        BenchmarkRunner.Run<CombineBenchmark>();
 }

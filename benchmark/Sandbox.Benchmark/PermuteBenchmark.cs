@@ -1,20 +1,17 @@
-using System.Collections.Generic;
-using System.Linq;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using Sandbox.Extensions;
 
-namespace Sandbox.Benchmark
+namespace Sandbox.Benchmark;
+
+[MemoryDiagnoser]
+public class PermuteBenchmark
 {
-    [MemoryDiagnoser]
-    public class PermuteBenchmark
-    {
-        private readonly Consumer _consumer = new Consumer();
-        [ParamsSource(nameof(TestCount))] public int N;
+    private readonly Consumer _consumer = new Consumer();
+    [ParamsSource(nameof(TestCount))] public int N;
 
-        public static IEnumerable<int> TestCount() => Enumerable.Range(1, 10);
+    public static IEnumerable<int> TestCount() => Enumerable.Range(1, 10);
 
-        [Benchmark]
-        public void Permute() => Enumerable.Range(0, N).Permute().Consume(_consumer);
-    }
+    [Benchmark]
+    public void Permute() => Enumerable.Range(0, N).Permute().Consume(_consumer);
 }
