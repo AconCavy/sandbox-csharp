@@ -3,6 +3,8 @@ using Sandbox.Extensions;
 
 namespace Sandbox.Tests;
 
+using static EnumerableExtension;
+
 public class ChunkTests
 {
     [Test]
