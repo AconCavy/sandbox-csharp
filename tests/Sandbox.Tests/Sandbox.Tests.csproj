@@ -2,7 +2,8 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-
+        <LangVersion>10</LangVersion>
+        <ImplicitUsings>true</ImplicitUsings>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
 
