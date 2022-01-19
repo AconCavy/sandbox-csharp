@@ -9,7 +9,7 @@ public class NumberTests
     [Test]
     public void IsMultipleOfTest1([Range(1, 30)] int p)
     {
-        for (var i = 0; i < 1 << 16; i++)
+        for (var i = 0; i < 1 << 14; i++)
         {
             var str = i.ToString();
             var expected = i % p == 0;
@@ -22,7 +22,7 @@ public class NumberTests
     public void IsMultipleOfTest2([Range(1, 30)] int p)
     {
         const long max = long.MaxValue;
-        for (var i = max; i >= max - 100000; i--)
+        for (var i = max; i >= max - 10000; i--)
         {
             var str = i.ToString();
             var expected = i % p == 0;
@@ -42,11 +42,10 @@ public class NumberTests
     }
 
     [Test]
-    public void IsMultipleOf2ETest([Values(2, 4, 8, 16, 32, 64, 128, 256, 512)]
-        int p)
+    public void IsMultipleOf2ETest([Values(2, 4, 8, 16, 32, 64, 128, 256, 512)] int p)
     {
         const long max = long.MaxValue;
-        for (var i = max; i >= max - 100000; i--)
+        for (var i = max; i >= max - 10000; i--)
         {
             var str = i.ToString();
             var expected = i % p == 0;
@@ -59,7 +58,7 @@ public class NumberTests
     public void IsMultipleOf3ETest([Values(3, 9, 27, 81, 243, 729)] int p)
     {
         const long max = long.MaxValue;
-        for (var i = max; i >= max - 100000; i--)
+        for (var i = max; i >= max - 10000; i--)
         {
             var str = i.ToString();
             var expected = i % p == 0;
@@ -72,7 +71,7 @@ public class NumberTests
     public void IsMultipleOf5ETest([Values(5, 25, 125, 625)] int p)
     {
         const long max = long.MaxValue;
-        for (var i = max; i >= max - 100000; i--)
+        for (var i = max; i >= max - 10000; i--)
         {
             var str = i.ToString();
             var expected = i % p == 0;
@@ -112,7 +111,7 @@ public class NumberTests
     [Test]
     public void ToDigitsTest1()
     {
-        const int limit = 1 << 16;
+        const int limit = 1 << 14;
         for (var i = -limit; i < limit; i++)
         {
             var expected = Math.Abs(i).ToString().Select(x => x - '0');
@@ -136,7 +135,7 @@ public class NumberTests
     [Test]
     public void GetNumberCountsTest()
     {
-        const int limit = 1 << 16;
+        const int limit = 1 << 14;
         for (var i = -limit; i <= limit; i++)
         {
             var str = Math.Abs(i).ToString();
@@ -150,7 +149,7 @@ public class NumberTests
     [Test]
     public void GetModuloTest([Range(1, 30)] int p)
     {
-        for (var i = 0; i < 1 << 20; i++)
+        for (var i = 0; i < 1 << 14; i++)
         {
             var str = i.ToString();
             var expected = i % p;
