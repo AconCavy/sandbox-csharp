@@ -3,9 +3,9 @@ namespace Sandbox.Geometry;
 public readonly struct Triangle : IEquatable<Triangle>
 
 {
-    public readonly Point Point1;
-    public readonly Point Point2;
-    public readonly Point Point3;
+    public Point Point1 { get; }
+    public Point Point2 { get; }
+    public Point Point3 { get; }
 
     public Triangle(Point point1, Point point2, Point point3) =>
         (Point1, Point2, Point3) = (point1, point2, point3);
@@ -56,12 +56,12 @@ public readonly struct Triangle : IEquatable<Triangle>
 
     public Point Centroid() => WeightedPoint(1, 1, 1);
 
-    public IEnumerable<Point> Excenters()
+    public (Point Point1, Point Point2, Point Point3) Excenters()
     {
         var a = Point.Distance(Point2, Point3);
         var b = Point.Distance(Point3, Point1);
         var c = Point.Distance(Point1, Point2);
-        return new[] { WeightedPoint(-a, b, c), WeightedPoint(a, -b, c), WeightedPoint(a, b, -c) };
+        return (WeightedPoint(-a, b, c), WeightedPoint(a, -b, c), WeightedPoint(a, b, -c));
     }
 
     private Point WeightedPoint(double w1, double w2, double w3)
