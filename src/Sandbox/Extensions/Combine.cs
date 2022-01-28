@@ -17,18 +17,19 @@ public static partial class EnumerableExtension
                 indices[i] = i;
             }
 
-            var result = new T[count];
 
-            void Fill()
+            T[] Result()
             {
+                var result = new T[count];
                 for (var i = 0; i < count; i++)
                 {
                     result[i] = items[indices[i]];
                 }
+
+                return result;
             }
 
-            Fill();
-            yield return result;
+            yield return Result();
             while (true)
             {
                 var done = true;
@@ -49,8 +50,7 @@ public static partial class EnumerableExtension
                     indices[i + 1] = indices[i] + 1;
                 }
 
-                Fill();
-                yield return result;
+                yield return Result();
             }
         }
 
