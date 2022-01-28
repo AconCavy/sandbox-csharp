@@ -44,15 +44,15 @@ public class FenwickTree2DTests
         const int width = 3;
         var cum = new FenwickTree2D(height, width);
         for (var i = 0; i < height; i++)
-        for (var j = 0; j < width; j++)
-            cum.Add(i, j, 1);
+            for (var j = 0; j < width; j++)
+                cum.Add(i, j, 1);
 
         for (var i = 0; i <= height; i++)
-        for (var j = 0; j <= width; j++)
-        {
-            var expected = i * j;
-            var actual = cum.Sum(i, j);
-            Assert.That(actual, Is.EqualTo(expected));
-        }
+            for (var j = 0; j <= width; j++)
+            {
+                var expected = i * j;
+                var actual = cum.Sum(i, j);
+                Assert.That(actual, Is.EqualTo(expected));
+            }
     }
 }

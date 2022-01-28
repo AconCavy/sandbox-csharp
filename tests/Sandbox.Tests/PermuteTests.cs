@@ -13,12 +13,12 @@ public class PermuteTests
 
         var expected = new List<int[]>();
         for (var a = 1; a <= count; a++)
-        for (var b = 1; b <= count; b++)
-        for (var c = 1; c <= count; c++)
-        {
-            if (a == b || b == c || c == a) continue;
-            expected.Add(new[] { a, b, c });
-        }
+            for (var b = 1; b <= count; b++)
+                for (var c = 1; c <= count; c++)
+                {
+                    if (a == b || b == c || c == a) continue;
+                    expected.Add(new[] { a, b, c });
+                }
 
         var actual = items.Permute();
 

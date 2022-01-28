@@ -65,7 +65,7 @@ public class CumulativeSum2D
         _isUpdated = true;
         _sum[0, 0] = _sum[1, 0] = _sum[0, 1] = 0;
         for (var i = 1; i <= _height; i++)
-        for (var j = 1; j <= _width; j++)
-            _sum[i, j] = _sum[i, j - 1] + _sum[i - 1, j] - _sum[i - 1, j - 1] + _data[i - 1, j - 1];
+            for (var j = 1; j <= _width; j++)
+                _sum[i, j] = _sum[i, j - 1] + _sum[i - 1, j] - _sum[i - 1, j - 1] + _data[i - 1, j - 1];
     }
 }

@@ -33,14 +33,14 @@ public static class NQueensProblem
             }
 
             for (var r = 0; r < size; r++)
-            for (var c = 0; c < size; c++)
-            {
-                if (answer[r][c] || !CanPlace(answer, r, c)) continue;
-                answer[r][c] = true;
-                Inner(placed + 1);
-                if (isIdentified) return;
-                answer[r][c] = false;
-            }
+                for (var c = 0; c < size; c++)
+                {
+                    if (answer[r][c] || !CanPlace(answer, r, c)) continue;
+                    answer[r][c] = true;
+                    Inner(placed + 1);
+                    if (isIdentified) return;
+                    answer[r][c] = false;
+                }
         }
 
         Inner(queens.Length);

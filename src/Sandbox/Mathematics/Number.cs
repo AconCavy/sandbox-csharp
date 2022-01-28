@@ -3,7 +3,7 @@ namespace Sandbox.Mathematics;
 public static class Number
 {
 #if DEBUG
-        private const int ParsableDigit = 4;
+    private const int ParsableDigit = 4;
 #else
     private const int ParsableDigit = 18;
 #endif
