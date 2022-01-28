@@ -56,6 +56,19 @@ public class CombineTests
 
         Assert.That(actual, Is.EqualTo(expected));
     }
+    
+    [Test]
+    public void CombineToArrayTest()
+    {
+        var sut = new[] { 1, 2, 3, 4 };
+        var expected = new[]
+        {
+            new[] { 1, 2 }, new[] { 1, 3 }, new[] { 1, 4 }, new[] { 2, 3 }, new[] { 2, 4 }, new[] { 3, 4 }
+        };
+        var actual = sut.Combine(2).ToArray();
+
+        Assert.That(actual, Is.EqualTo(expected));
+    }
 
     [Test]
     public void NullSourceTest()
