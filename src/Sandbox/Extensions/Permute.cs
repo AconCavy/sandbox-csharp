@@ -16,18 +16,18 @@ public static partial class EnumerableExtension
                 indices[i] = i;
             }
 
-            var result = new T[n];
-
-            void Fill()
+            T[] Result()
             {
+                var result = new T[n];
                 for (var i = 0; i < n; i++)
                 {
                     result[i] = items[indices[i]];
                 }
+
+                return result;
             }
 
-            Fill();
-            yield return result;
+            yield return Result();
             while (true)
             {
                 var (i, j) = (n - 2, n - 1);
@@ -46,8 +46,7 @@ public static partial class EnumerableExtension
 
                 (indices[i], indices[j]) = (indices[j], indices[i]);
                 Array.Reverse(indices, i + 1, n - 1 - i);
-                Fill();
-                yield return result;
+                yield return Result();
             }
         }
 
@@ -75,18 +74,19 @@ public static partial class EnumerableExtension
                 cycles[i] = n - i;
             }
 
-            var result = new T[count];
 
-            void Fill()
+            T[] Result()
             {
+                var result = new T[count];
                 for (var i = 0; i < count; i++)
                 {
                     result[i] = items[indices[i]];
                 }
+
+                return result;
             }
 
-            Fill();
-            yield return result;
+            yield return Result();
             while (true)
             {
                 var done = true;
@@ -105,8 +105,7 @@ public static partial class EnumerableExtension
                     else
                     {
                         (indices[i], indices[^cycles[i]]) = (indices[^cycles[i]], indices[i]);
-                        Fill();
-                        yield return result;
+                        yield return Result();
                         done = false;
                         break;
                     }
