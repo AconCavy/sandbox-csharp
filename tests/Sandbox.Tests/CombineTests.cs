@@ -56,7 +56,7 @@ public class CombineTests
 
         Assert.That(actual, Is.EqualTo(expected));
     }
-    
+
     [Test]
     public void CombineToArrayTest()
     {

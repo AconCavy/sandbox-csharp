@@ -24,7 +24,7 @@ public class PermuteTests
 
         Assert.That(actual, Is.EqualTo(expected));
     }
-    
+
     [Test]
     public void PermuteToArrayTest()
     {

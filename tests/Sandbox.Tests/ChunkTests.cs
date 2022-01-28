@@ -28,7 +28,7 @@ public class ChunkTests
 
         Assert.That(actual, Is.EqualTo(expected));
     }
-    
+
     [Test]
     public void FragmentToArrayTest()
     {
