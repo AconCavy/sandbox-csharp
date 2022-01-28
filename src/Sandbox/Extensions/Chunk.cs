@@ -2,23 +2,25 @@ namespace Sandbox.Extensions;
 
 public static partial class EnumerableExtension
 {
-    public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> source, int size)
+    public static IEnumerable<T[]> Chunk<T>(this IEnumerable<T> source, int size)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+        if (source is null) throw new ArgumentNullException(nameof(source));
         if (size <= 0) throw new ArgumentException(nameof(size));
 
-        IEnumerable<IEnumerable<T>> Inner()
+        IEnumerable<T[]> Inner()
         {
             var idx = 0;
-            var ret = new T[size];
+            var result = new T[size];
             foreach (var x in source)
             {
-                ret[idx++] = x;
-                if (idx == size) yield return ret;
+                result[idx++] = x;
+                if (idx != size) continue;
+                yield return result;
+                result = new T[size];
                 idx %= size;
             }
 
-            if (idx > 0) yield return ret[..idx];
+            if (idx > 0) yield return result[..idx];
         }
 
         return Inner();

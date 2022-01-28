@@ -28,6 +28,17 @@ public class ChunkTests
 
         Assert.That(actual, Is.EqualTo(expected));
     }
+    
+    [Test]
+    public void FragmentToArrayTest()
+    {
+        var items = Enumerable.Range(0, 10);
+
+        var expected = new[] { new[] { 0, 1, 2 }, new[] { 3, 4, 5 }, new[] { 6, 7, 8 }, new[] { 9 } };
+        var actual = items.Chunk(3).ToArray();
+
+        Assert.That(actual, Is.EqualTo(expected));
+    }
 
     [Test]
     public void LessThanSizeTest()
