@@ -24,6 +24,22 @@ public class PermuteTests
 
         Assert.That(actual, Is.EqualTo(expected));
     }
+    
+    [Test]
+    public void PermuteToArrayTest()
+    {
+        var sut = new[] { 1, 2, 3 };
+        var expected = new[]
+        {
+            new[] { 1, 2, 3 }, new[] { 1, 3, 2 }, new[] { 2, 1, 3 }, new[] { 2, 3, 1 }, new[] { 3, 1, 2 },
+            new[] { 3, 2, 1 }
+        };
+        var actual1 = sut.Permute(3).ToArray();
+        var actual2 = sut.Permute().ToArray();
+
+        Assert.That(actual1, Is.EqualTo(expected));
+        Assert.That(actual2, Is.EqualTo(expected));
+    }
 
     [Test]
     public void NullSourceTest()

@@ -53,7 +53,7 @@ public static partial class EnumerableExtension
         return Inner();
     }
 
-    public static IEnumerable<IEnumerable<T>> Permute<T>(this IEnumerable<T> source, int count)
+    public static IEnumerable<T[]> Permute<T>(this IEnumerable<T> source, int count)
     {
         if (source is null) throw new ArgumentNullException(nameof(source));
 
