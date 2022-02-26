@@ -10,6 +10,7 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
     private readonly Random _random;
 
     private Node _root;
+    private int _count;
 
     public RandomizedBinarySearchTree(int seed = 0) : this(comparer: null, seed) { }
 
@@ -79,6 +80,8 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
     {
         return Find(value) is { };
     }
+
+    public int Count() => Count(_root);
 
     public IEnumerator<T> GetEnumerator() => Enumerate(_root).GetEnumerator();
 

@@ -50,6 +50,8 @@ public class Set<T> : IEnumerable<T>
         return _tree.ElementAt(index) ?? throw new ArgumentOutOfRangeException(nameof(index));
     }
 
+    public int Count() => _tree.Count();
+
     public int Count(T value)
     {
         return _tree.UpperBound(value) - _tree.LowerBound(value);
