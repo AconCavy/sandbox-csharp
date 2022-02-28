@@ -2,15 +2,14 @@ using System.Collections;
 
 namespace Sandbox.Structures;
 
-public class RandomizedBinarySearchTree<T> : IEnumerable<T>
+public class RandomizedBinarySearchTree<T> : IReadOnlyCollection<T>
 {
     private readonly Comparison<T> _comparison;
-    private readonly Compare _lowerBound;
-    private readonly Compare _upperBound;
+    private readonly Func<T, T, bool> _lowerBound;
+    private readonly Func<T, T, bool> _upperBound;
     private readonly Random _random;
 
     private Node _root;
-    private int _count;
 
     public RandomizedBinarySearchTree(int seed = 0) : this(comparer: null, seed) { }
 
@@ -26,8 +25,6 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
         _upperBound = (x, y) => _comparison(x, y) > 0;
         _random = new Random(seed);
     }
-
-    public delegate bool Compare(T x, T y);
 
     public void Insert(T value)
     {
@@ -55,21 +52,21 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
 
     public T ElementAt(int index)
     {
-        if (index < 0 || Count(_root) <= index) throw new ArgumentNullException(nameof(index));
+        if (index < 0 || Count <= index) throw new ArgumentNullException(nameof(index));
         var node = _root;
-        var idx = Count(node) - Count(node.R) - 1;
+        var idx = CountOf(node) - CountOf(node.R) - 1;
         while (node is { })
         {
             if (idx == index) return node.Value;
             if (idx > index)
             {
                 node = node.L;
-                idx -= Count(node?.R) + 1;
+                idx -= CountOf(node?.R) + 1;
             }
             else
             {
                 node = node.R;
-                idx += Count(node?.L) + 1;
+                idx += CountOf(node?.L) + 1;
             }
         }
 
@@ -81,7 +78,7 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
         return Find(value) is { };
     }
 
-    public int Count() => Count(_root);
+    public int Count => CountOf(_root);
 
     public IEnumerator<T> GetEnumerator() => Enumerate(_root).GetEnumerator();
 
@@ -90,24 +87,24 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
     public int UpperBound(T value) => CommonBound(value, _upperBound);
     public int LowerBound(T value) => CommonBound(value, _lowerBound);
 
-    public int CommonBound(T value, Compare compare)
+    public int CommonBound(T value, Func<T, T, bool> compare)
     {
         var node = _root;
         if (node is null) return -1;
-        var bound = Count(node);
-        var idx = bound - Count(node.R) - 1;
+        var bound = CountOf(node);
+        var idx = bound - CountOf(node.R) - 1;
         while (node is { })
         {
             if (compare(node.Value, value))
             {
                 node = node.L;
                 bound = Math.Min(bound, idx);
-                idx -= Count(node?.R) + 1;
+                idx -= CountOf(node?.R) + 1;
             }
             else
             {
                 node = node.R;
-                idx += Count(node?.L) + 1;
+                idx += CountOf(node?.L) + 1;
             }
         }
 
@@ -119,7 +116,7 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
     private Node Merge(Node l, Node r)
     {
         if (l is null || r is null) return l ?? r;
-        var (n, m) = (Count(l), Count(r));
+        var (n, m) = (CountOf(l), CountOf(r));
         if ((double)n / (n + m) > GetProbability())
         {
             l.R = Merge(l.R, r);
@@ -136,7 +133,7 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
     {
         if (node is null) return (null, null);
 
-        if (k <= Count(node.L))
+        if (k <= CountOf(node.L))
         {
             var (l, r) = Split(node.L, k);
             node.L = r;
@@ -144,7 +141,7 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
         }
         else
         {
-            var (l, r) = Split(node.R, k - Count(node.L) - 1);
+            var (l, r) = Split(node.R, k - CountOf(node.L) - 1);
             node.R = l;
             return (node, r);
         }
@@ -164,7 +161,7 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
         return node;
     }
 
-    private static int Count(Node node) => node?.Count ?? 0;
+    private static int CountOf(Node node) => node?.Count ?? 0;
 
     private static IEnumerable<T> Enumerate(Node node = null)
     {
@@ -176,9 +173,9 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
 
     private class Node
     {
-        public T Value { get; }
+        internal T Value { get; }
 
-        public Node L
+        internal Node L
         {
             get => _l;
             set
@@ -188,7 +185,7 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
             }
         }
 
-        public Node R
+        internal Node R
         {
             get => _r;
             set
@@ -198,12 +195,12 @@ public class RandomizedBinarySearchTree<T> : IEnumerable<T>
             }
         }
 
-        public int Count { get; private set; }
+        internal int Count { get; private set; }
 
         private Node _l;
         private Node _r;
 
-        public Node(T value)
+        internal Node(T value)
         {
             Value = value;
             Count = 1;
