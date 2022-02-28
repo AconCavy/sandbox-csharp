@@ -2,32 +2,39 @@ using System.Collections;
 
 namespace Sandbox.Structures;
 
-public class Set<T> : IEnumerable<T>
+public class Set<T> : IReadOnlyCollection<T>
 {
     private readonly RandomizedBinarySearchTree<T> _tree;
     private readonly bool _allowDuplication;
 
-    public Set(bool allowDuplication = false)
-        : this(null, comparer: null, allowDuplication)
+    public Set(bool allowDuplication = false) : this(Comparer<T>.Default, allowDuplication) { }
+
+    public Set(IEnumerable<T> source, bool allowDuplication = false) : this(allowDuplication)
     {
+        foreach (var value in source) Add(value);
     }
 
-    public Set(IEnumerable<T> source, bool allowDuplication = false)
-        : this(source, comparer: null, allowDuplication)
+    public Set(IEnumerable<T> source, IComparer<T> comparer, bool allowDuplication = false)
+        : this(comparer, allowDuplication)
     {
-    }
-
-    public Set(IEnumerable<T> source, Comparer<T> comparer, bool allowDuplication = false)
-        : this(source, (comparer ?? Comparer<T>.Default).Compare, allowDuplication)
-    {
+        foreach (var value in source) Add(value);
     }
 
     public Set(IEnumerable<T> source, Comparison<T> comparison, bool allowDuplication = false)
+        : this(comparison, allowDuplication)
+    {
+        foreach (var value in source) Add(value);
+    }
+
+    public Set(IComparer<T> comparer, bool allowDuplication = false)
+        : this((comparer ?? Comparer<T>.Default).Compare, allowDuplication)
+    {
+    }
+
+    public Set(Comparison<T> comparison, bool allowDuplication = false)
     {
         _tree = new RandomizedBinarySearchTree<T>(comparison);
         _allowDuplication = allowDuplication;
-        if (source is null) return;
-        foreach (var value in source) Add(value);
     }
 
     public void Add(T value)
@@ -47,14 +54,7 @@ public class Set<T> : IEnumerable<T>
 
     public T ElementAt(int index)
     {
-        return _tree.ElementAt(index) ?? throw new ArgumentOutOfRangeException(nameof(index));
-    }
-
-    public int Count() => _tree.Count();
-
-    public int Count(T value)
-    {
-        return _tree.UpperBound(value) - _tree.LowerBound(value);
+        return _tree.ElementAt(index);
     }
 
     public int LowerBound(T value)
@@ -66,6 +66,8 @@ public class Set<T> : IEnumerable<T>
     {
         return _tree.UpperBound(value);
     }
+
+    public int Count => _tree.Count;
 
     public IEnumerator<T> GetEnumerator() => _tree.GetEnumerator();
 
