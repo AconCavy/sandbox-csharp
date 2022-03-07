@@ -44,7 +44,7 @@ public class Set<T> : IReadOnlyCollection<T>
 
     public void Remove(T value)
     {
-        _tree.Erase(value);
+        _tree.Remove(value);
     }
 
     public bool Contains(T value)
