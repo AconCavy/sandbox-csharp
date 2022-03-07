@@ -5,8 +5,6 @@ namespace Sandbox.Structures;
 public class RandomizedBinarySearchTree<T> : IReadOnlyCollection<T>
 {
     private readonly Comparison<T> _comparison;
-    private readonly Func<T, T, bool> _lowerBound;
-    private readonly Func<T, T, bool> _upperBound;
     private readonly Random _random;
 
     private Node _root;
@@ -21,8 +19,6 @@ public class RandomizedBinarySearchTree<T> : IReadOnlyCollection<T>
     public RandomizedBinarySearchTree(Comparison<T> comparison, int seed = 0)
     {
         _comparison = comparison;
-        _lowerBound = (x, y) => _comparison(x, y) >= 0;
-        _upperBound = (x, y) => _comparison(x, y) > 0;
         _random = new Random(seed);
     }
 
@@ -32,27 +28,17 @@ public class RandomizedBinarySearchTree<T> : IReadOnlyCollection<T>
         else InsertAt(LowerBound(value), value);
     }
 
-    public void InsertAt(int index, T value)
+    public bool Remove(T value)
     {
-        var (l, r) = Split(_root, index);
-        _root = Merge(Merge(l, new Node(value)), r);
-    }
-
-    public void Erase(T value)
-    {
-        EraseAt(LowerBound(value));
-    }
-
-    public void EraseAt(int index)
-    {
-        var (l, r1) = Split(_root, index);
-        var (_, r2) = Split(r1, 1);
-        _root = Merge(l, r2);
+        var index = LowerBound(value);
+        if (index < 0) return false;
+        RemoveAt(index);
+        return true;
     }
 
     public T ElementAt(int index)
     {
-        if (index < 0 || Count <= index) throw new ArgumentNullException(nameof(index));
+        if (index < 0 || Count <= index) throw new ArgumentOutOfRangeException(nameof(index));
         var node = _root;
         var idx = CountOf(node) - CountOf(node.R) - 1;
         while (node is { })
@@ -84,10 +70,10 @@ public class RandomizedBinarySearchTree<T> : IReadOnlyCollection<T>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public int UpperBound(T value) => CommonBound(value, _upperBound);
-    public int LowerBound(T value) => CommonBound(value, _lowerBound);
+    public int UpperBound(T value) => Bound(value, (x, y) => _comparison(x, y) > 0);
+    public int LowerBound(T value) => Bound(value, (x, y) => _comparison(x, y) >= 0);
 
-    public int CommonBound(T value, Func<T, T, bool> compare)
+    public int Bound(T value, Func<T, T, bool> compare)
     {
         var node = _root;
         if (node is null) return -1;
@@ -112,6 +98,19 @@ public class RandomizedBinarySearchTree<T> : IReadOnlyCollection<T>
     }
 
     private double GetProbability() => _random.NextDouble();
+
+    private void InsertAt(int index, T value)
+    {
+        var (l, r) = Split(_root, index);
+        _root = Merge(Merge(l, new Node(value)), r);
+    }
+
+    private void RemoveAt(int index)
+    {
+        var (l, r1) = Split(_root, index);
+        var (_, r2) = Split(r1, 1);
+        _root = Merge(l, r2);
+    }
 
     private Node Merge(Node l, Node r)
     {
