@@ -2,70 +2,80 @@ namespace Sandbox.Structures;
 
 public class CumulativeSum2D
 {
-    private readonly long[,] _data;
-    private readonly int _height;
-    private readonly long[,] _sum;
-    private readonly int _width;
+    public int Height { get; }
+    public int Width { get; }
+
+    private readonly long[] _data;
+    private readonly long[] _sum;
     private bool _isUpdated;
 
-    public CumulativeSum2D(int h, int w)
+    public CumulativeSum2D(int height, int width)
     {
-        if (h <= 0) throw new ArgumentOutOfRangeException(nameof(h));
-        if (w <= 0) throw new ArgumentOutOfRangeException(nameof(w));
-        _height = h;
-        _width = w;
-        _data = new long[h, w];
-        _sum = new long[h + 1, w + 1];
+        if (height <= 0) throw new ArgumentOutOfRangeException(nameof(height));
+        if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width));
+        Height = height;
+        Width = width;
+        _data = new long[height * width];
+        _sum = new long[(height + 1) * (width + 1)];
     }
 
-    public void Add(int h, int w, long value)
+    public void Add(int height, int width, long value)
     {
-        if (h < 0 || _height <= h) throw new ArgumentOutOfRangeException(nameof(h));
-        if (w < 0 || _width <= w) throw new ArgumentOutOfRangeException(nameof(w));
+        if (height < 0 || Height <= height) throw new ArgumentOutOfRangeException(nameof(height));
+        if (width < 0 || Width <= width) throw new ArgumentOutOfRangeException(nameof(width));
         _isUpdated = false;
-        _data[h, w] += value;
+        _data[height * Width + width] += value;
     }
 
-    public void Set(int h, int w, long value)
+    public void Set(int height, int width, long value)
     {
-        if (h < 0 || _height <= h) throw new ArgumentOutOfRangeException(nameof(h));
-        if (w < 0 || _width <= w) throw new ArgumentOutOfRangeException(nameof(w));
+        if (height < 0 || Height <= height) throw new ArgumentOutOfRangeException(nameof(height));
+        if (width < 0 || Width <= width) throw new ArgumentOutOfRangeException(nameof(width));
         _isUpdated = false;
-        _data[h, w] = value;
+        _data[height * Width + width] = value;
     }
 
-    public long Get(int h, int w)
+    public long Get(int height, int width)
     {
-        if (h < 0 || _height <= h) throw new ArgumentOutOfRangeException(nameof(h));
-        if (w < 0 || _width <= w) throw new ArgumentOutOfRangeException(nameof(w));
-        return _data[h, w];
+        if (height < 0 || Height <= height) throw new ArgumentOutOfRangeException(nameof(height));
+        if (width < 0 || Width <= width) throw new ArgumentOutOfRangeException(nameof(width));
+        return _data[height * Width + width];
     }
 
-    public long Sum(int h, int w)
+    public long Sum(int height, int width)
     {
-        if (h < 0 || _height < h) throw new ArgumentOutOfRangeException(nameof(h));
-        if (w < 0 || _width < w) throw new ArgumentOutOfRangeException(nameof(w));
+        if (height < 0 || Height < height) throw new ArgumentOutOfRangeException(nameof(height));
+        if (width < 0 || Width < width) throw new ArgumentOutOfRangeException(nameof(width));
         if (!_isUpdated) Build();
-        return _sum[h, w];
+        return _sum[height * (Width + 1) + width];
     }
 
 
-    public long Sum(int h1, int w1, int h2, int w2)
+    public long Sum(int height1, int width1, int height2, int width2)
     {
-        if (h1 < 0 || _height < h1) throw new ArgumentOutOfRangeException(nameof(h1));
-        if (w1 < 0 || _width < w1) throw new ArgumentOutOfRangeException(nameof(w1));
-        if (h2 < 0 || _height < h2) throw new ArgumentOutOfRangeException(nameof(h2));
-        if (w2 < 0 || _width < w2) throw new ArgumentOutOfRangeException(nameof(w2));
+        if (height1 < 0 || Height < height1) throw new ArgumentOutOfRangeException(nameof(height1));
+        if (width1 < 0 || Width < width1) throw new ArgumentOutOfRangeException(nameof(width1));
+        if (height2 < 0 || Height < height2) throw new ArgumentOutOfRangeException(nameof(height2));
+        if (width2 < 0 || Width < width2) throw new ArgumentOutOfRangeException(nameof(width2));
         if (!_isUpdated) Build();
-        return _sum[h1, w1] + _sum[h2, w2] - _sum[h2, w1] - _sum[h1, w2];
+        var w1 = Width + 1;
+        return _sum[height1 * w1 + width1]
+               + _sum[height2 * w1 + width2]
+               - _sum[height2 * w1 + width1]
+               - _sum[height1 * w1 + width2];
     }
 
     private void Build()
     {
         _isUpdated = true;
-        _sum[0, 0] = _sum[1, 0] = _sum[0, 1] = 0;
-        for (var i = 1; i <= _height; i++)
-            for (var j = 1; j <= _width; j++)
-                _sum[i, j] = _sum[i, j - 1] + _sum[i - 1, j] - _sum[i - 1, j - 1] + _data[i - 1, j - 1];
+        var w1 = Width + 1;
+        _sum[0] = _sum[w1] = _sum[1] = 0;
+        for (var i = 1; i <= Height; i++)
+        for (var j = 1; j <= Width; j++)
+            _sum[i * w1 + j] =
+                _sum[i * w1 + (j - 1)]
+                + _sum[(i - 1) * w1 + j]
+                - _sum[(i - 1) * w1 + (j - 1)]
+                + _data[(i - 1) * Width + (j - 1)];
     }
 }
