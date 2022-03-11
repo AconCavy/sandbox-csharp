@@ -9,4 +9,8 @@
         <ImplicitUsings>true</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Mulinq" Version="0.4.1" />
+    </ItemGroup>
+
 </Project>
