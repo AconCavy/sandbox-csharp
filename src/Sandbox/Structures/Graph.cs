@@ -2,109 +2,126 @@ namespace Sandbox.Structures;
 
 public class Graph
 {
-    private readonly List<(int, long)>[] _data;
+    public int Length { get; }
+
+    private readonly List<Edge>[] _data;
     private readonly int[] _degree;
 
-    public Graph(int count)
+    public Graph(int length)
     {
-        Count = count;
-        _data = new List<(int, long)>[Count].Select(_ => new List<(int, long)>()).ToArray();
-        _degree = new int[Count];
+        if (length < 0) throw new ArgumentOutOfRangeException(nameof(length));
+        Length = length;
+        _data = new List<Edge>[Length].Select(_ => new List<Edge>()).ToArray();
+        _degree = new int[Length];
     }
 
-    public int Count { get; }
-
-    public void AddEdge(int u, int v, long cost = 1)
+    public void AddEdge(int u, int v, long cost)
     {
-        if (u < 0 || Count <= u) throw new ArgumentOutOfRangeException(nameof(u));
-        if (v < 0 || Count <= v) throw new ArgumentOutOfRangeException(nameof(v));
-        _data[u].Add((v, cost));
+        if (u < 0 || Length <= u) throw new ArgumentOutOfRangeException(nameof(u));
+        if (v < 0 || Length <= v) throw new ArgumentOutOfRangeException(nameof(v));
+        _data[u].Add(new Edge(v, cost));
         _degree[v]++;
     }
 
-    public IEnumerable<int> TopologicalSort()
+    public long[] Dijkstra(int start, long seed, long invalid, Func<long, long, long> calcCost)
     {
-        var queue = new Queue<int>();
-        var degree = new int[Count];
-        _degree.CopyTo(degree, 0);
-        for (var i = 0; i < degree.Length; i++)
-            if (degree[i] == 0)
-                queue.Enqueue(i);
-
-        while (queue.Any())
-        {
-            var v = queue.Dequeue();
-            for (var i = 0; i < _data[v].Count; i++)
-            {
-                var (u, _) = _data[v][i];
-                degree[u]--;
-                if (degree[u] == 0) queue.Enqueue(u);
-            }
-
-            yield return v;
-        }
-    }
-
-    public IEnumerable<long> Dijkstra(int start, Func<long, long, long> func = null)
-    {
-        if (start < 0 || Count <= start) throw new ArgumentOutOfRangeException(nameof(start));
-        func ??= (x, y) => x + y;
-        var queue = new PriorityQueue<(int U, long Cost)>((x, y) => x.Cost.CompareTo(y.Cost));
-        queue.Enqueue((start, 0));
-        var costs = new long[Count];
-        Array.Fill(costs, long.MaxValue);
-        costs[start] = 0;
-        while (queue.Any())
+        if (start < 0 || Length <= start) throw new ArgumentOutOfRangeException(nameof(start));
+        if (calcCost is null) throw new ArgumentNullException(nameof(calcCost));
+        var queue = new PriorityQueue<(int U, long C)>((x, y) => y.C.CompareTo(x.C));
+        queue.Enqueue((start, seed));
+        var costs = new long[Length];
+        Array.Fill(costs, invalid);
+        costs[start] = seed;
+        while (queue.Count > 0)
         {
             var (u, cu) = queue.Dequeue();
-            if (cu >= costs[u]) continue;
-            foreach (var (v, cv) in _data[u])
+            if (cu > costs[u]) continue;
+            foreach (var node in _data[u])
             {
-                var c = func(costs[u], cv);
-                if (costs[v] <= c) continue;
-                costs[v] = c;
-                queue.Enqueue((v, c));
+                var c = calcCost(costs[u], node.Cost);
+                if (c >= costs[node.To]) continue;
+                costs[node.To] = c;
+                queue.Enqueue((node.To, c));
             }
         }
 
         return costs;
     }
 
-    public long Kruskal()
-    {
-        var flatten = _data.SelectMany((x, i) => x.Select(y => (i, y.Item1, y.Item2))).ToArray();
-        Array.Sort(flatten, (x, y) => x.Item3.CompareTo(y.Item3));
-        var dsu = new DisjointSetUnion(Count);
-        var cost = 0L;
-        foreach (var (u, v, c) in flatten)
-        {
-            if (dsu.IsSame(u, v)) continue;
-            cost += c;
-            dsu.Merge(u, v);
-        }
-
-        return cost;
-    }
-
-    public (bool, IEnumerable<int>) IsBipartite()
+    public (bool Result, int[] Colors) IsBipartite()
     {
         var queue = new Queue<int>();
         queue.Enqueue(0);
-        var colors = new int[Count];
+        var colors = new int[Length];
         Array.Fill(colors, -1);
         colors[0] = 0;
-        while (queue.Any())
+        while (queue.Count > 0)
         {
-            var u = queue.Dequeue();
-            foreach (var (v, _) in _data[u])
+            var from = queue.Dequeue();
+            foreach (var node in _data[from])
             {
-                if (colors[u] == colors[v]) return (false, colors);
-                if (colors[v] != -1) continue;
-                colors[v] = colors[u] ^ 1;
-                queue.Enqueue(v);
+                if (colors[from] == colors[node.To]) return (false, colors);
+                if (colors[node.To] != -1) continue;
+                colors[node.To] = colors[from] ^ 1;
+                queue.Enqueue(node.To);
             }
         }
 
         return (true, colors);
+    }
+
+    public void Kruskal(Action<long> necessary, Action<long> unnecessary, Comparison<long> comparison)
+    {
+        var data = _data.SelectMany((edges, u) => edges
+                .Select(edge => (U: u, V: edge.To, C: edge.Cost)))
+            .ToArray();
+        Array.Sort(data, (x, y) => comparison(x.C, y.C));
+        var dsu = new DisjointSetUnion(Length);
+        foreach (var (u, v, c) in data)
+        {
+            if (dsu.IsSame(u, v))
+            {
+                unnecessary?.Invoke(c);
+                continue;
+            }
+
+            necessary?.Invoke(c);
+            dsu.Merge(u, v);
+        }
+    }
+
+    public (bool, int[]) TopologicalSort()
+    {
+        var queue = new Queue<int>();
+        var degree = new int[Length];
+        _degree.CopyTo(degree, 0);
+        for (var i = 0; i < degree.Length; i++)
+        {
+            if (degree[i] == 0) queue.Enqueue(i);
+        }
+
+        var result = new int[Length];
+        var idx = 0;
+
+        while (queue.Count > 0)
+        {
+            var v = queue.Dequeue();
+            foreach (var node in _data[v])
+            {
+                degree[node.To]--;
+                if (degree[node.To] == 0) queue.Enqueue(node.To);
+            }
+
+            result[idx++] = v;
+        }
+
+        return (idx == Length, result);
+    }
+
+    private readonly struct Edge
+    {
+        internal int To { get; }
+        internal long Cost { get; }
+        public Edge(int to, long cost) => (To, Cost) = (to, cost);
     }
 }
