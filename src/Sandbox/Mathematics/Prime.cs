@@ -5,19 +5,21 @@ public static class Prime
     public static IEnumerable<long> GetFactors(long value)
     {
         if (value < 2) yield break;
-        while (value % 2 == 0)
+
+        IEnumerable<long> F(long x)
         {
-            yield return 2;
-            value /= 2;
+            while (value % x == 0)
+            {
+                yield return x;
+                value /= x;
+            }
         }
 
-        for (var i = 3L; i * i <= value; i++)
+        foreach (var v in F(2)) yield return v;
+
+        for (var i = 3L; i * i <= value; i += 2)
         {
-            while (value % i == 0)
-            {
-                yield return i;
-                value /= i;
-            }
+            foreach (var v in F(i)) yield return v;
         }
 
         if (value > 1) yield return value;
