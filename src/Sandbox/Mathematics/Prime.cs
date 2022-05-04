@@ -63,11 +63,11 @@ public static class Prime
 
     public static bool IsPrime(long value)
     {
-        if (value == 2) return true;
-        if (value < 2 || value % 2 == 0) return false;
-        for (var i = 3L; i * i <= value; i += 2)
+        if (value == 2 || value == 3) return true;
+        if (value < 2 || value % 2 == 0 || value % 3 == 0) return false;
+        for (var i = 5L; i * i <= value; i += 6)
         {
-            if (value % i == 0) return false;
+            if (value % i == 0 || value % (i + 2) == 0) return false;
         }
 
         return true;
