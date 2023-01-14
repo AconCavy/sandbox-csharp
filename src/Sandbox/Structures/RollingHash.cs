@@ -7,11 +7,11 @@ public class RollingHash
     private const ulong Mask31 = (1UL << 31) - 1;
     private const ulong Modulo = (1UL << 61) - 1;
     private const ulong Positivizer = Modulo * ((1UL << 3) - 1);
-    private static readonly ulong Base;
+    public static readonly ulong Base;
 
     static RollingHash()
     {
-        Base = (ulong)new Random().Next(1 << 8, 1 << 30);
+        Base = (ulong)new Random().Next(1 << 8, int.MaxValue);
     }
 
     private readonly ulong[] _powers;
@@ -30,9 +30,9 @@ public class RollingHash
         }
     }
 
-    public ulong Slice(int i, int length)
+    public ulong SlicedHash(int start, int length)
     {
-        return CalcModulo(_hash[i + length] + Positivizer - Multiply(_hash[i], _powers[length]));
+        return CalcModulo(_hash[start + length] + Positivizer - Multiply(_hash[start], _powers[length]));
     }
 
     private static ulong Multiply(ulong a, ulong b)
