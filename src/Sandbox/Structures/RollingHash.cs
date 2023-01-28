@@ -14,16 +14,18 @@ public class RollingHash
         Base = (ulong)new Random().Next(1 << 8, int.MaxValue);
     }
 
+    public readonly int Length;
     private readonly ulong[] _powers;
     private readonly ulong[] _hash;
 
     public RollingHash(ReadOnlySpan<char> s)
     {
-        _powers = new ulong[s.Length + 1];
+        Length = s.Length;
+        _powers = new ulong[Length + 1];
         _powers[0] = 1;
-        _hash = new ulong[s.Length + 1];
+        _hash = new ulong[Length + 1];
 
-        for (var i = 0; i < s.Length; i++)
+        for (var i = 0; i < Length; i++)
         {
             _powers[i + 1] = CalcModulo(Multiply(_powers[i], Base));
             _hash[i + 1] = CalcModulo(Multiply(_hash[i], Base) + s[i]);
@@ -32,6 +34,8 @@ public class RollingHash
 
     public ulong SlicedHash(int start, int length)
     {
+        if (start < 0 || start > Length) throw new ArgumentOutOfRangeException(nameof(start));
+        if (start + length > Length) throw new ArgumentOutOfRangeException(nameof(length));
         return CalcModulo(_hash[start + length] + Positivizer - Multiply(_hash[start], _powers[length]));
     }
 
