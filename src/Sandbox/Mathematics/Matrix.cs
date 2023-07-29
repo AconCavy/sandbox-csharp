@@ -161,4 +161,6 @@ public readonly struct Matrix
 
         return builder.ToString();
     }
+
+    public Matrix Clone() => new(_data);
 }
