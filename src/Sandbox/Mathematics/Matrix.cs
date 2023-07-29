@@ -22,6 +22,14 @@ public readonly struct Matrix
         _data = new long[height, width];
     }
 
+    public Matrix(long[,] data)
+    {
+        Height = data.GetLength(0);
+        Width = data.GetLength(1);
+        _data = new long[Height, Width];
+        Array.Copy(data, _data, data.Length);
+    }
+
     public static Matrix Identity(int n)
     {
         var matrix = new Matrix(n, n);
