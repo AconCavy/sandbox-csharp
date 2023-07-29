@@ -37,8 +37,12 @@ public readonly struct Matrix
         if (a.Width != b.Width) throw new ArgumentException("The matrix widths do not match");
         var c = new Matrix(a.Height, a.Width);
         for (var i = 0; i < b.Height; i++)
+        {
             for (var j = 0; j < b.Width; j++)
+            {
                 c[i, j] = a[i, j] + b[i, j];
+            }
+        }
 
         return c;
     }
@@ -51,8 +55,12 @@ public readonly struct Matrix
         if (a.Width != b.Width) throw new ArgumentException("The matrix widths do not match");
         var c = new Matrix(a.Height, a.Width);
         for (var i = 0; i < b.Height; i++)
+        {
             for (var j = 0; j < b.Width; j++)
+            {
                 c[i, j] = (c[i, j] + (a[i, j] + b[i, j]) % mod) % mod;
+            }
+        }
 
         return c;
     }
@@ -64,9 +72,15 @@ public readonly struct Matrix
         if (a.Width != b.Height) throw new ArgumentException();
         var c = new Matrix(a.Height, b.Width);
         for (var i = 0; i < a.Height; i++)
+        {
             for (var k = 0; k < b.Height; k++)
+            {
                 for (var j = 0; j < b.Width; j++)
+                {
                     c[i, j] += a[i, k] * b[k, j];
+                }
+            }
+        }
 
         return c;
     }
@@ -78,9 +92,15 @@ public readonly struct Matrix
         if (a.Width != b.Height) throw new ArgumentException();
         var c = new Matrix(a.Height, b.Width);
         for (var i = 0; i < a.Height; i++)
+        {
             for (var k = 0; k < b.Height; k++)
+            {
                 for (var j = 0; j < b.Width; j++)
+                {
                     c[i, j] = (c[i, j] + a[i, k] * b[k, j] % mod) % mod;
+                }
+            }
+        }
 
         return c;
     }
