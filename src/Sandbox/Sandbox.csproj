@@ -2,11 +2,11 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net6.0</TargetFrameworks>
         <AssemblyName>Sandbox</AssemblyName>
         <RootNamespace>Sandbox</RootNamespace>
-        <LangVersion>10</LangVersion>
+        <LangVersion>11</LangVersion>
         <ImplicitUsings>true</ImplicitUsings>
+        <TargetFramework>net7.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
