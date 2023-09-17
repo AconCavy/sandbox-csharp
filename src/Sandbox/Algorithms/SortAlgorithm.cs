@@ -2,18 +2,16 @@ namespace Sandbox.Algorithms;
 
 public static class SortAlgorithm
 {
-    public static void Quick<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
-        Quick(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
+    public static void Quick<T>(Span<T> source, Comparer<T> comparer = null) =>
+        Quick(source, (comparer ?? Comparer<T>.Default).Compare);
 
-    public static void Quick<T>(Span<T> source, int l, int r, Comparison<T> comparison)
+    public static void Quick<T>(Span<T> source, Comparison<T> comparison)
     {
-        if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
-        if (r <= l) throw new ArgumentException();
         comparison ??= Comparer<T>.Default.Compare;
-
+        var (l, r) = (0, source.Length);
+        var (ll, rr) = (l, r - 1);
         var pivot = source[(l + r) / 2];
 
-        var (ll, rr) = (l, r - 1);
         while (true)
         {
             while (comparison(pivot, source[ll]) > 0) ll++;
@@ -22,18 +20,17 @@ public static class SortAlgorithm
             (source[ll], source[rr]) = (source[rr], source[ll]);
         }
 
-        if (ll - l > 1) Quick(source, l, ll, comparison);
-        if (r - rr > 1) Quick(source, rr, r, comparison);
+        if (ll - l > 1) Quick(source[l..ll], comparison);
+        if (r - rr > 1) Quick(source[rr..r], comparison);
     }
 
-    public static void Bubble<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
-        Bubble(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
+    public static void Bubble<T>(Span<T> source, Comparer<T> comparer = null) =>
+        Bubble(source, (comparer ?? Comparer<T>.Default).Compare);
 
-    public static void Bubble<T>(Span<T> source, int l, int r, Comparison<T> comparison)
+    public static void Bubble<T>(Span<T> source, Comparison<T> comparison)
     {
-        if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
-        if (r <= l) throw new ArgumentException();
         comparison ??= Comparer<T>.Default.Compare;
+        var (l, r) = (0, source.Length);
 
         for (var i = 0; i < r - l; i++)
         {
@@ -50,21 +47,19 @@ public static class SortAlgorithm
         }
     }
 
-    public static void Merge<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
-        Merge(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
+    public static void Merge<T>(Span<T> source, Comparer<T> comparer = null) =>
+        Merge(source, (comparer ?? Comparer<T>.Default).Compare);
 
-    public static void Merge<T>(Span<T> source, int l, int r, Comparison<T> comparison)
+    public static void Merge<T>(Span<T> source, Comparison<T> comparison)
     {
-        if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
-        if (r <= l) throw new ArgumentException();
         comparison ??= Comparer<T>.Default.Compare;
-
+        var (l, r) = (0, source.Length);
         var n = r - l;
         if (n < 2) return;
 
         var m = (l + r) / 2;
-        Merge(source, l, m, comparison);
-        Merge(source, m, r, comparison);
+        Merge(source[l..m], comparison);
+        Merge(source[m..r], comparison);
 
         var buffer = new T[n];
         var (ll, rr) = (l, m);
@@ -80,14 +75,13 @@ public static class SortAlgorithm
         buffer.AsSpan().CopyTo(source[l..]);
     }
 
-    public static void Insertion<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
-        Insertion(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
+    public static void Insertion<T>(Span<T> source, Comparer<T> comparer = null) =>
+        Insertion(source, (comparer ?? Comparer<T>.Default).Compare);
 
-    public static void Insertion<T>(Span<T> source, int l, int r, Comparison<T> comparison)
+    public static void Insertion<T>(Span<T> source, Comparison<T> comparison)
     {
-        if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
-        if (r <= l) throw new ArgumentException();
         comparison ??= Comparer<T>.Default.Compare;
+        var (l, r) = (0, source.Length);
 
         for (var i = l + 1; i < r; i++)
         {
@@ -100,14 +94,13 @@ public static class SortAlgorithm
         }
     }
 
-    public static void Shell<T>(Span<T> source, int l, int r, Comparer<T> comparer = null) =>
-        Shell(source, l, r, (comparer ?? Comparer<T>.Default).Compare);
+    public static void Shell<T>(Span<T> source, Comparer<T> comparer = null) =>
+        Shell(source, (comparer ?? Comparer<T>.Default).Compare);
 
-    public static void Shell<T>(Span<T> source, int l, int r, Comparison<T> comparison)
+    public static void Shell<T>(Span<T> source, Comparison<T> comparison)
     {
-        if (l < 0 || source.Length < r) throw new ArgumentOutOfRangeException();
-        if (r <= l) throw new ArgumentException();
         comparison ??= Comparer<T>.Default.Compare;
+        var (l, r) = (0, source.Length);
 
         var max = -(-(r - l)) / 3;
         var k = 1;
