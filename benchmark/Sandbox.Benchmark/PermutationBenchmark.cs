@@ -15,7 +15,7 @@ public class PermutationBenchmark
     public void GeneratePermutationWithLength()
     {
         var buffer = new int[N];
-        foreach (var indices in Permutation.GeneratePermutation(N))
+        foreach (var indices in Permutation.Generate(N))
         {
             for (var i = 0; i < N; i++)
             {

@@ -26,26 +26,26 @@ public static class Permutation
         return true;
     }
 
-    public static IEnumerable<IReadOnlyList<int>> GeneratePermutation(int length)
+    public static IEnumerable<IReadOnlyList<int>> Generate(int n)
     {
         return Inner();
 
         IEnumerable<IReadOnlyList<int>> Inner()
         {
-            var indices = new int[length];
+            var indices = new int[n];
             for (var i = 0; i < indices.Length; i++) indices[i] = i;
             do { yield return indices; } while (NextPermutation(indices));
         }
     }
 
-    public static IEnumerable<IReadOnlyList<int>> GeneratePermutationDescending(int length)
+    public static IEnumerable<IReadOnlyList<int>> GenerateDescending(int n)
     {
         return Inner();
 
         IEnumerable<IReadOnlyList<int>> Inner()
         {
-            var indices = new int[length];
-            for (var i = 0; i < indices.Length; i++) indices[i] = length - 1 - i;
+            var indices = new int[n];
+            for (var i = 0; i < indices.Length; i++) indices[i] = n - 1 - i;
             do { yield return indices; } while (PreviousPermutation(indices));
         }
     }
