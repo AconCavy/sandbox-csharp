@@ -1,25 +1,29 @@
+using System.Numerics;
+
 namespace Sandbox.Structures;
 
-public class FenwickTree2D
+public class FenwickTree2D<T> where T : INumber<T>
 {
     public int Height { get; }
     public int Width { get; }
 
-    private readonly long[] _data;
+    private readonly T[] _data;
 
     public FenwickTree2D(int height, int width)
     {
-        if (height < 0) throw new ArgumentOutOfRangeException(nameof(height));
-        if (width < 0) throw new ArgumentOutOfRangeException(nameof(width));
+        ThrowIfNegative(height);
+        ThrowIfNegative(width);
         Height = height;
         Width = width;
-        _data = new long[Height * Width];
+        _data = new T[Height * Width];
     }
 
-    public void Add(int height, int width, long value)
+    public void Add(int height, int width, T value)
     {
-        if (height < 0 || Height <= height) throw new ArgumentOutOfRangeException(nameof(height));
-        if (width < 0 || Width <= width) throw new ArgumentOutOfRangeException(nameof(width));
+        ThrowIfNegative(height);
+        ThrowIfGreaterThanOrEqual(height, Height);
+        ThrowIfNegative(width);
+        ThrowIfGreaterThanOrEqual(width, Width);
         for (var i = height + 1; i <= Height; i += i & -i)
         {
             for (var j = width + 1; j <= Width; j += j & -j)
@@ -29,11 +33,17 @@ public class FenwickTree2D
         }
     }
 
-    public long Sum(int height, int width)
+    /// <summary>
+    /// Calculate a two-dimensional cumulative sum of [0, height), [0, width).
+    /// </summary>
+    public T Sum(int height, int width)
     {
-        if (height < 0 || Height < height) throw new ArgumentOutOfRangeException(nameof(height));
-        if (width < 0 || Width < width) throw new ArgumentOutOfRangeException(nameof(width));
-        var sum = 0L;
+        ThrowIfNegative(height);
+        ThrowIfGreaterThan(height, Height);
+        ThrowIfNegative(width);
+        ThrowIfGreaterThan(width, Width);
+
+        var sum = T.Zero;
         for (var i = height; i > 0; i -= i & -i)
         {
             for (var j = width; j > 0; j -= j & -j)
@@ -45,12 +55,29 @@ public class FenwickTree2D
         return sum;
     }
 
-    public long Sum(int height1, int width1, int height2, int width2)
+    /// <summary>
+    /// Calculate a two-dimensional cumulative sum of [height1, height2), [width1, width2).
+    /// </summary>
+    public T Sum(int height1, int width1, int height2, int width2)
     {
-        if (height1 < 0 || Height < height1) throw new ArgumentOutOfRangeException(nameof(height1));
-        if (width1 < 0 || Width < width1) throw new ArgumentOutOfRangeException(nameof(width1));
-        if (height2 < 0 || Height < height2) throw new ArgumentOutOfRangeException(nameof(height2));
-        if (width2 < 0 || Width < width2) throw new ArgumentOutOfRangeException(nameof(width2));
+        ThrowIfGreaterThanOrEqual(height1, height2);
+        ThrowIfGreaterThanOrEqual(width1, width2);
+
         return Sum(height1, width1) + Sum(height2, width2) - Sum(height2, width1) - Sum(height1, width2);
+    }
+
+    private static void ThrowIfNegative(int value)
+    {
+        if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));
+    }
+
+    private static void ThrowIfGreaterThan(int value, int other)
+    {
+        if (value > other) throw new ArgumentOutOfRangeException(nameof(value));
+    }
+
+    private static void ThrowIfGreaterThanOrEqual(int value, int other)
+    {
+        if (value >= other) throw new ArgumentOutOfRangeException(nameof(value));
     }
 }
