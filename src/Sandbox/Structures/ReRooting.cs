@@ -20,7 +20,7 @@ public class ReRooting<T>
         _edges[v].Add(u);
     }
 
-    public IReadOnlyList<T> Calc()
+    public T[] Calculate()
     {
         var result = new T[Size];
         Array.Fill(result, _operation.Identity);
