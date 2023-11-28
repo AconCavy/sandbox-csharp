@@ -8,16 +8,16 @@ public class CumulativeSum2DTests
     [Test]
     public void InitializeTest()
     {
-        Assert.DoesNotThrow(() => _ = new CumulativeSum2D(1, 1));
-        Assert.Throws<ArgumentOutOfRangeException>(() => _ = new CumulativeSum2D(0, 1));
-        Assert.Throws<ArgumentOutOfRangeException>(() => _ = new CumulativeSum2D(1, 0));
+        Assert.DoesNotThrow(() => _ = new CumulativeSum2D<long>(1, 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => _ = new CumulativeSum2D<long>(0, 1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => _ = new CumulativeSum2D<long>(1, 0));
     }
 
     [TestCase(-1, 0)]
     [TestCase(0, -1)]
     public void ArgumentOutOfRangeTest(int h, int w)
     {
-        var cum = new CumulativeSum2D(1, 1);
+        var cum = new CumulativeSum2D<long>(1, 1);
         Assert.Throws<ArgumentOutOfRangeException>(() => cum.Add(h, w, 1));
         Assert.Throws<ArgumentOutOfRangeException>(() => cum.Set(h, w, 1));
         Assert.Throws<ArgumentOutOfRangeException>(() => cum.Get(h, w));
@@ -29,7 +29,7 @@ public class CumulativeSum2DTests
     [Test]
     public void SetAndAddAndGetTest()
     {
-        var cum = new CumulativeSum2D(1, 1);
+        var cum = new CumulativeSum2D<long>(1, 1);
         var expected = 1;
         cum.Set(0, 0, expected);
         var actual = cum.Get(0, 0);
@@ -46,7 +46,7 @@ public class CumulativeSum2DTests
     {
         const int height = 3;
         const int width = 3;
-        var cum = new CumulativeSum2D(height, width);
+        var cum = new CumulativeSum2D<long>(height, width);
         for (var i = 0; i < height; i++)
             for (var j = 0; j < width; j++)
                 cum.Set(i, j, 1);
@@ -66,8 +66,8 @@ public class CumulativeSum2DTests
         var random = new Random(0);
         const int height = 50;
         const int width = 50;
-        var ft = new FenwickTree2D(height, width);
-        var cum = new CumulativeSum2D(height, width);
+        var ft = new FenwickTree2D<long>(height, width);
+        var cum = new CumulativeSum2D<long>(height, width);
 
         for (var i = 0; i < height; i++)
             for (var j = 0; j < width; j++)
