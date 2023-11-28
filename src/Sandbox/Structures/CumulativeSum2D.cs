@@ -68,21 +68,16 @@ public class CumulativeSum2D<T> where T : INumber<T>
     /// </summary>
     public T Sum(int height1, int width1, int height2, int width2)
     {
-        ThrowIfGreaterThanOrEqual(height1, height2);
-        ThrowIfGreaterThanOrEqual(width1, width2);
-        if (!_isUpdated) Build();
-        var w1 = Width + 1;
-        return _sum[height1 * w1 + width1]
-               + _sum[height2 * w1 + width2]
-               - _sum[height2 * w1 + width1]
-               - _sum[height1 * w1 + width2];
+        ThrowIfGreaterThan(height1, height2);
+        ThrowIfGreaterThan(width1, width2);
+        return Sum(height1, width1) + Sum(height2, width2) - Sum(height2, width1) - Sum(height1, width2);
     }
 
     private void Build()
     {
         _isUpdated = true;
         var w1 = Width + 1;
-        _sum[0] = _sum[w1] = _sum[1] = 0;
+        _sum[0] = _sum[w1] = _sum[1] = T.Zero;
         for (var i = 1; i <= Height; i++)
         for (var j = 1; j <= Width; j++)
             _sum[i * w1 + j] =

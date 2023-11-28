@@ -60,8 +60,8 @@ public class FenwickTree2D<T> where T : INumber<T>
     /// </summary>
     public T Sum(int height1, int width1, int height2, int width2)
     {
-        ThrowIfGreaterThanOrEqual(height1, height2);
-        ThrowIfGreaterThanOrEqual(width1, width2);
+        ThrowIfGreaterThan(height1, height2);
+        ThrowIfGreaterThan(width1, width2);
 
         return Sum(height1, width1) + Sum(height2, width2) - Sum(height2, width1) - Sum(height1, width2);
     }
